@@ -99,3 +99,104 @@ html[data-theme="emerald"] {
     color: #f8fafc !important;
   }
 }
+
+/* Add this section to your existing CSS file */
+
+/* Override regular Tailwind classes to use DaisyUI dark variables */
+.bg-white { 
+  background-color: var(--b1) !important; 
+  color: var(--bc) !important; 
+}
+
+.bg-gray-50 { 
+  background-color: var(--b2) !important; 
+}
+
+.bg-gray-100 { 
+  background-color: var(--b2) !important; 
+}
+
+.bg-blue-50 { 
+  background-color: color-mix(in srgb, var(--p) 10%, var(--b1)) !important; 
+}
+
+.bg-green-50 { 
+  background-color: color-mix(in srgb, var(--su) 10%, var(--b1)) !important; 
+}
+
+.bg-red-50 { 
+  background-color: color-mix(in srgb, var(--er) 10%, var(--b1)) !important; 
+}
+
+.bg-purple-50 { 
+  background-color: color-mix(in srgb, var(--s) 10%, var(--b1)) !important; 
+}
+
+.bg-yellow-50 { 
+  background-color: color-mix(in srgb, var(--wa) 10%, var(--b1)) !important; 
+}
+
+/* Text color overrides */
+.text-gray-900, .text-gray-800, .text-black { 
+  color: var(--bc) !important; 
+}
+
+.text-gray-700 { 
+  color: color-mix(in srgb, var(--bc) 90%, transparent) !important; 
+}
+
+.text-gray-600 { 
+  color: color-mix(in srgb, var(--bc) 70%, transparent) !important; 
+}
+
+.text-gray-500 { 
+  color: color-mix(in srgb, var(--bc) 60%, transparent) !important; 
+}
+
+/* Border overrides */
+.border-gray-100, .border-gray-200 { 
+  border-color: var(--b3) !important; 
+}
+
+.border-gray-300 { 
+  border-color: color-mix(in srgb, var(--bc) 20%, var(--b1)) !important; 
+}
+
+/* Form elements */
+input, textarea, select, .input, .textarea, .select {
+  background-color: var(--b2) !important;
+  color: var(--bc) !important;
+  border-color: var(--b3) !important;
+}
+
+input:focus, textarea:focus, select:focus, .input:focus, .textarea:focus, .select:focus {
+  border-color: var(--p) !important;
+}
+
+/* Card and modal overrides */
+.card, .modal-box {
+  background-color: var(--b1) !important;
+  color: var(--bc) !important;
+  border-color: var(--b3) !important;
+}
+
+/* Button overrides for better contrast */
+.btn:not(.btn-primary):not(.btn-secondary):not(.btn-accent) {
+  background-color: var(--b2) !important;
+  color: var(--bc) !important;
+  border-color: var(--b3) !important;
+}
+
+.btn:not(.btn-primary):not(.btn-secondary):not(.btn-accent):hover {
+  background-color: var(--b3) !important;
+}
+
+/* Gradient backgrounds - make them work with dark theme */
+.bg-gradient-to-br {
+  background: var(--b1) !important;
+}
+
+/* Specific overrides for your components */
+.from-slate-50, .to-blue-50, .via-blue-50 {
+  background: linear-gradient(to bottom right, var(--b1), var(--b2)) !important;
+}

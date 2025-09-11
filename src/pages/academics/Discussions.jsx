@@ -36,6 +36,11 @@ const Discussions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }, []);
+
   useEffect(() => {
     fetchCommunityAndThreads();
   }, [communityId, sortBy, currentPage]);
