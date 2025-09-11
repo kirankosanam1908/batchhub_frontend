@@ -151,51 +151,55 @@ const Notes = () => {
 
   if (loading && currentPage === 1) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen academic-gradient flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-primary font-semibold">Loading study materials...</p>
+          <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white font-semibold text-lg">Loading study materials...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen academic-gradient">
       <div className="container mx-auto px-4 py-8">
-        {/* Professional Header */}
+        {/* Academic Header */}
         <div className="mb-8">
-          <div className="text-sm breadcrumbs opacity-70 mb-4">
-            <ul>
-              <li><Link to="/academics" className="text-primary hover:text-primary-focus">📚 Academics</Link></li>
-              <li><Link to="/academics" className="text-primary hover:text-primary-focus">{community?.name}</Link></li>
-              <li className="text-gray-600">Study Materials</li>
+          <div className="text-sm breadcrumbs mb-4">
+            <ul className="text-white/80">
+              <li><Link to="/academics" className="academic-text-light hover:text-white transition-colors">📚 Academics</Link></li>
+              <li><Link to="/academics" className="academic-text-light hover:text-white transition-colors">{community?.name}</Link></li>
+              <li className="text-white/60">Study Materials</li>
             </ul>
           </div>
           
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-6">
+          <div className="card bg-white shadow-xl border-0 p-8 mb-6 animate-slide-in">
             <div className="flex justify-between items-center">
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3 mb-2">
-                  <BookOpenIcon className="w-8 h-8 text-primary" />
+                <h1 className="text-4xl font-bold academic-text-primary flex items-center gap-3 mb-3">
+                  <BookOpenIcon className="w-10 h-10 academic-text-accent" />
                   Study Materials Repository
                 </h1>
-                <p className="text-gray-600 text-lg">
+                <p className="text-gray-600 text-xl mb-4">
                   Organized collection of notes, documents, and study resources
                 </p>
                 {notes.length > 0 && (
-                  <div className="flex items-center gap-4 mt-3 text-sm text-gray-500">
-                    <span>📁 {notes.length} files available</span>
-                    <span>•</span>
-                    <span>🎯 {uniqueSubjects.length} subjects</span>
-                    <span>•</span>
-                    <span>📚 {uniqueSemesters.length} semesters</span>
+                  <div className="flex items-center gap-6 text-base academic-text-secondary">
+                    <span className="flex items-center gap-2">
+                      📁 <strong>{notes.length}</strong> files available
+                    </span>
+                    <span className="flex items-center gap-2">
+                      🎯 <strong>{uniqueSubjects.length}</strong> subjects
+                    </span>
+                    <span className="flex items-center gap-2">
+                      📚 <strong>{uniqueSemesters.length}</strong> semesters
+                    </span>
                   </div>
                 )}
               </div>
               <button
                 onClick={() => setShowUploadModal(true)}
-                className="btn btn-primary shadow-lg hover:shadow-xl transition-all"
+                className="btn academic-primary shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
               >
                 <ArrowUpTrayIcon className="w-5 h-5 mr-2" />
                 Upload Study Material
@@ -204,21 +208,21 @@ const Notes = () => {
           </div>
         </div>
 
-        {/* Enhanced Search and Filter */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 mb-6">
-          <div className="p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        {/* Academic Search and Filter */}
+        <div className="card bg-white shadow-xl border-0 mb-8 animate-fade-in">
+          <div className="p-8">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
               {/* Academic Search */}
               <div className="form-control lg:col-span-2">
                 <label className="label">
-                  <span className="label-text font-medium text-gray-700">Search Materials</span>
+                  <span className="label-text font-semibold academic-text-dark text-lg">Search Materials</span>
                 </label>
                 <div className="relative">
-                  <MagnifyingGlassIcon className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <MagnifyingGlassIcon className="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 academic-text-secondary" />
                   <input
                     type="text"
                     placeholder="Search by title, description, or tags..."
-                    className="input input-bordered w-full pl-10 focus:border-primary"
+                    className="input input-bordered w-full pl-12 h-12 academic-border focus:academic-border text-base"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -227,10 +231,10 @@ const Notes = () => {
               
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-medium text-gray-700">Subject</span>
+                  <span className="label-text font-semibold academic-text-dark text-lg">Subject</span>
                 </label>
                 <select
-                  className="select select-bordered focus:border-primary"
+                  className="select select-bordered h-12 academic-border focus:academic-border text-base"
                   value={filterSubject}
                   onChange={(e) => setFilterSubject(e.target.value)}
                 >
@@ -243,10 +247,10 @@ const Notes = () => {
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-medium text-gray-700">Semester</span>
+                  <span className="label-text font-semibold academic-text-dark text-lg">Semester</span>
                 </label>
                 <select
-                  className="select select-bordered focus:border-primary"
+                  className="select select-bordered h-12 academic-border focus:academic-border text-base"
                   value={filterSemester}
                   onChange={(e) => setFilterSemester(e.target.value)}
                 >
@@ -259,11 +263,11 @@ const Notes = () => {
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-medium text-gray-700">Actions</span>
+                  <span className="label-text font-semibold academic-text-dark text-lg">Actions</span>
                 </label>
                 <button 
                   onClick={clearFilters}
-                  className="btn btn-outline hover:btn-primary transition-all"
+                  className="btn btn-outline academic-border academic-text-primary hover:academic-primary h-12 transition-all"
                   disabled={!searchTerm && !filterSubject && !filterSemester}
                 >
                   Clear Filters
@@ -276,14 +280,14 @@ const Notes = () => {
         {/* Study Materials Grid */}
         {loading && currentPage > 1 ? (
           <div className="flex justify-center py-8">
-            <div className="text-primary">Loading more materials...</div>
+            <div className="text-white text-lg">Loading more materials...</div>
           </div>
         ) : notes.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100">
-            <div className="p-16 text-center">
-              <FolderIcon className="w-20 h-20 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-700 mb-2">No Study Materials Found</h3>
-              <p className="text-gray-500 mb-6 max-w-md mx-auto">
+          <div className="card bg-white shadow-xl border-0">
+            <div className="p-20 text-center">
+              <FolderIcon className="w-24 h-24 mx-auto academic-text-light mb-6" />
+              <h3 className="text-3xl font-bold academic-text-primary mb-4">No Study Materials Found</h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto text-lg">
                 {searchTerm || filterSubject || filterSemester ? 
                   'Try adjusting your search criteria or filters to find relevant materials.' : 
                   'Be the first to contribute! Upload study materials to help your batchmates.'
@@ -292,7 +296,7 @@ const Notes = () => {
               {!searchTerm && !filterSubject && !filterSemester && (
                 <button
                   onClick={() => setShowUploadModal(true)}
-                  className="btn btn-primary"
+                  className="btn academic-primary shadow-lg hover:shadow-xl transition-all"
                 >
                   <ArrowUpTrayIcon className="w-5 h-5 mr-2" />
                   Upload First Material
@@ -302,7 +306,7 @@ const Notes = () => {
           </div>
         ) : (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
               {notes.map((note) => (
                 <StudyMaterialCard 
                   key={note._id} 
@@ -316,23 +320,23 @@ const Notes = () => {
               ))}
             </div>
 
-            {/* Professional Pagination */}
+            {/* Academic Pagination */}
             {totalPages > 1 && (
               <div className="flex justify-center">
-                <div className="bg-white rounded-full shadow-lg border border-gray-100 p-2">
+                <div className="card bg-white shadow-xl border-0 p-3">
                   <div className="join">
                     <button 
-                      className="join-item btn btn-ghost"
+                      className="join-item btn btn-ghost academic-text-primary"
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={currentPage === 1}
                     >
                       ← Previous
                     </button>
-                    <button className="join-item btn btn-primary">
+                    <button className="join-item btn academic-primary">
                       Page {currentPage} of {totalPages}
                     </button>
                     <button 
-                      className="join-item btn btn-ghost"
+                      className="join-item btn btn-ghost academic-text-primary"
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                       disabled={currentPage === totalPages}
                     >
@@ -399,31 +403,31 @@ const StudyMaterialCard = ({ note, onDownload, onDelete, currentUser, community,
                    community?.moderators?.includes(currentUser?._id);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 overflow-hidden">
+    <div className="card bg-white shadow-xl hover:shadow-2xl transition-all border-0 overflow-hidden hover:-translate-y-2 animate-slide-in">
       <div className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1 pr-3">
-            <h2 className="text-lg font-semibold text-gray-800 line-clamp-2 mb-2">
+            <h2 className="text-xl font-bold academic-text-primary line-clamp-2 mb-3">
               {note.title}
             </h2>
             {note.description && (
-              <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+              <p className="text-gray-600 text-sm line-clamp-2 mb-4">
                 {note.description}
               </p>
             )}
           </div>
           <div className="flex-shrink-0">
-            <span className="text-3xl">{getFileIcon(note.fileType)}</span>
+            <span className="text-4xl">{getFileIcon(note.fileType)}</span>
           </div>
         </div>
         
         {/* Academic Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          <div className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+        <div className="flex flex-wrap gap-3 mb-4">
+          <div className="academic-light px-4 py-2 rounded-full text-sm font-semibold">
             {note.subject}
           </div>
           {note.semester && (
-            <div className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+            <div className="academic-accent px-4 py-2 rounded-full text-sm font-semibold">
               {note.semester}
             </div>
           )}
@@ -431,14 +435,14 @@ const StudyMaterialCard = ({ note, onDownload, onDelete, currentUser, community,
 
         {/* Study Tags */}
         {note.tags && note.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-4">
+          <div className="flex flex-wrap gap-2 mb-4">
             {note.tags.slice(0, 3).map(tag => (
-              <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+              <span key={tag} className="px-3 py-1 bg-gray-100 academic-text-secondary text-xs rounded-full font-medium">
                 #{tag}
               </span>
             ))}
             {note.tags.length > 3 && (
-              <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+              <span className="px-3 py-1 bg-gray-100 academic-text-secondary text-xs rounded-full font-medium">
                 +{note.tags.length - 3} more
               </span>
             )}
@@ -446,22 +450,22 @@ const StudyMaterialCard = ({ note, onDownload, onDelete, currentUser, community,
         )}
         
         {/* File Metadata */}
-        <div className="text-sm text-gray-500 mb-4 space-y-1">
+        <div className="text-sm text-gray-500 mb-4 space-y-2">
           <div className="flex justify-between items-center">
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-2 font-medium">
               <span>📤 {note.uploadedBy?.name || 'Unknown'}</span>
             </span>
             {note.fileSize && (
-              <span className="text-xs bg-gray-50 px-2 py-1 rounded">
+              <span className="text-xs bg-gray-50 px-3 py-1 rounded-full font-semibold">
                 {formatFileSize(note.fileSize)}
               </span>
             )}
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-xs">
+            <span className="text-xs academic-text-secondary font-medium">
               📅 {format(new Date(note.createdAt), 'MMM dd, yyyy')}
             </span>
-            <span className="flex items-center gap-1 text-xs">
+            <span className="flex items-center gap-1 text-xs academic-text-secondary font-medium">
               <EyeIcon className="w-3 h-3" />
               {note.downloads || 0} downloads
             </span>
@@ -469,11 +473,11 @@ const StudyMaterialCard = ({ note, onDownload, onDelete, currentUser, community,
         </div>
         
         {/* Action Buttons */}
-        <div className="flex gap-2 pt-4 border-t border-gray-100">
+        <div className="flex gap-3 pt-4 academic-border-light border-t">
           <button
             onClick={() => onDownload(note._id, note.title, note.fileUrl)}
             disabled={isDownloading}
-            className={`btn btn-primary flex-1 ${isDownloading ? 'loading' : ''}`}
+            className={`btn academic-primary flex-1 transition-all hover:-translate-y-1 ${isDownloading ? 'loading' : ''}`}
             title="Download or view file"
           >
             {isDownloading ? (
@@ -489,7 +493,7 @@ const StudyMaterialCard = ({ note, onDownload, onDelete, currentUser, community,
           {canDelete && (
             <button
               onClick={() => onDelete(note._id, note.title)}
-              className="btn btn-outline btn-error"
+              className="btn btn-outline status-text-error hover:status-error transition-all"
               title="Delete file"
             >
               <TrashIcon className="w-4 h-4" />
@@ -515,8 +519,8 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
 
   // Academic subjects suggestions
   const commonSubjects = [
-    'Computer Science', 'Data Structures', 'Algorithms', 'Database Management',
-    'Operating Systems', 'Computer Networks', 'Software Engineering',
+    'Computer Science', 'Data Structures', 'Algorithms', 
+    'Database Management', 'Operating Systems', 'Computer Networks', 'Software Engineering',
     'Machine Learning', 'Artificial Intelligence', 'Web Development',
     'Mobile Development', 'Cybersecurity', 'Mathematics', 'Statistics',
     'Physics', 'Chemistry', 'Electronics', 'Digital Logic'
@@ -635,36 +639,36 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
   };
 
   return (
-    <div className="modal modal-open">
-      <div className="modal-box max-w-3xl bg-white">
-        <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+    <div className="modal modal-open modal-backdrop">
+      <div className="modal-content max-w-4xl bg-white rounded-2xl shadow-2xl">
+        <div className="flex justify-between items-center mb-8 pb-6 academic-border-light border-b">
           <div>
-            <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
-              <ArrowUpTrayIcon className="w-7 h-7 text-primary" />
+            <h3 className="text-3xl font-bold academic-text-primary flex items-center gap-3">
+              <ArrowUpTrayIcon className="w-8 h-8 academic-text-accent" />
               Upload Study Material
             </h3>
-            <p className="text-gray-600 mt-1">Share educational resources with your academic community</p>
+            <p className="text-gray-600 mt-2 text-lg">Share educational resources with your academic community</p>
           </div>
           <button 
-            className="btn btn-ghost btn-circle hover:bg-gray-100" 
+            className="btn btn-ghost btn-circle hover:bg-gray-100 transition-colors" 
             onClick={onClose}
           >
-            <XMarkIcon className="w-5 h-5" />
+            <XMarkIcon className="w-6 h-6" />
           </button>
         </div>
         
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-8">
           {/* File Upload Section */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text text-lg font-semibold text-gray-700">Academic File *</span>
+              <span className="label-text text-xl font-bold academic-text-dark">Academic File *</span>
             </label>
             
             {/* Drag and Drop Area */}
             <div
-              className={`border-2 border-dashed rounded-xl p-8 text-center transition-all ${
+              className={`border-3 border-dashed rounded-2xl p-12 text-center transition-all ${
                 dragActive 
-                  ? 'border-primary bg-primary/5 scale-105' 
+                  ? 'academic-border academic-light scale-105 shadow-lg' 
                   : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
               }`}
               onDragEnter={handleDrag}
@@ -673,32 +677,32 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
               onDrop={handleDrop}
             >
               {file ? (
-                <div className="space-y-4">
-                  <CloudArrowUpIcon className="w-16 h-16 mx-auto text-green-500" />
+                <div className="space-y-6">
+                  <CloudArrowUpIcon className="w-20 h-20 mx-auto status-text-success" />
                   <div>
-                    <p className="font-semibold text-lg text-gray-800">{file.name}</p>
-                    <p className="text-gray-500">
+                    <p className="font-bold text-xl academic-text-primary">{file.name}</p>
+                    <p className="text-gray-500 text-lg mt-2">
                       {formatFileSize(file.size)} • {file.type}
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setFile(null)}
-                    className="btn btn-outline btn-sm"
+                    className="btn btn-outline academic-text-primary hover:academic-primary transition-all"
                   >
                     Remove File
                   </button>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  <CloudArrowUpIcon className="w-16 h-16 mx-auto text-gray-400" />
+                <div className="space-y-6">
+                  <CloudArrowUpIcon className="w-20 h-20 mx-auto text-gray-400" />
                   <div>
-                    <p className="text-xl font-semibold text-gray-700">Drop your academic file here</p>
-                    <p className="text-gray-500 mt-2">
+                    <p className="text-2xl font-bold academic-text-dark">Drop your academic file here</p>
+                    <p className="text-gray-500 mt-3 text-lg">
                       or click to browse your computer
                     </p>
-                    <p className="text-sm text-gray-400 mt-2">
-                      Supported: PDF, DOC, PPT, XLS, Images, Text files
+                    <p className="text-sm text-gray-400 mt-3">
+                      Supported: PDF, DOC, PPT, XLS, Images, Text files • Max 50MB
                     </p>
                   </div>
                 </div>
@@ -715,7 +719,7 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
               {!file && (
                 <label 
                   htmlFor="file-upload" 
-                  className="btn btn-primary mt-4 cursor-pointer"
+                  className="btn academic-primary mt-6 cursor-pointer shadow-lg hover:shadow-xl transition-all"
                 >
                   Choose Academic File
                 </label>
@@ -724,14 +728,14 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
           </div>
 
           {/* Academic Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-semibold text-gray-700">Material Title *</span>
+                <span className="label-text font-bold academic-text-dark text-lg">Material Title *</span>
               </label>
               <input
                 type="text"
-                className="input input-bordered input-lg focus:border-primary"
+                className="input input-bordered h-14 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 placeholder="e.g., Database Management Chapter 1 Notes"
@@ -742,12 +746,12 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
 
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-semibold text-gray-700">Subject *</span>
+                <span className="label-text font-bold academic-text-dark text-lg">Subject *</span>
               </label>
               <input
                 type="text"
                 list="subjects"
-                className="input input-bordered input-lg focus:border-primary"
+                className="input input-bordered h-14 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 placeholder="e.g., Computer Science"
@@ -764,26 +768,26 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
 
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-semibold text-gray-700">Description</span>
+              <span className="label-text font-bold academic-text-dark text-lg">Description</span>
             </label>
             <textarea
-              className="textarea textarea-bordered focus:border-primary"
+              className="textarea textarea-bordered h-32 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={3}
+              rows={4}
               placeholder="Brief description of the content, what topics are covered, difficulty level, etc."
               maxLength={500}
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-semibold text-gray-700">Semester/Year</span>
+                <span className="label-text font-bold academic-text-dark text-lg">Semester/Year</span>
               </label>
               <input
                 type="text"
-                className="input input-bordered focus:border-primary"
+                className="input input-bordered h-12 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
                 value={formData.semester}
                 onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
                 placeholder="e.g., Semester 5, Year 3"
@@ -793,11 +797,11 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
 
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-semibold text-gray-700">Tags</span>
+                <span className="label-text font-bold academic-text-dark text-lg">Tags</span>
               </label>
               <input
                 type="text"
-                className="input input-bordered focus:border-primary"
+                className="input input-bordered h-12 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
                 value={formData.tags}
                 onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                 placeholder="algorithms, theory, practice, exam-prep"
@@ -807,36 +811,51 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
           </div>
 
           {/* Academic Guidelines */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
-              <AcademicCapIcon className="w-5 h-5" />
+          <div className="academic-light rounded-2xl p-6 border academic-border-light">
+            <h4 className="font-bold academic-text-primary mb-4 flex items-center gap-2 text-lg">
+              <AcademicCapIcon className="w-6 h-6" />
               Academic Upload Guidelines
             </h4>
-            <ul className="text-sm text-blue-700 space-y-1">
-              <li>• Ensure content is relevant to the course curriculum</li>
-              <li>• Use clear, descriptive titles and subject names</li>
-              <li>• Add comprehensive descriptions and relevant tags</li>
-              <li>• Respect copyright and only upload original or permitted content</li>
-              <li>• Maximum file size: 50MB per upload</li>
+            <ul className="text-sm academic-text-dark space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="text-green-500 font-bold">•</span>
+                <span>Ensure content is relevant to the course curriculum</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-500 font-bold">•</span>
+                <span>Use clear, descriptive titles and subject names</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-500 font-bold">•</span>
+                <span>Add comprehensive descriptions and relevant tags</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-500 font-bold">•</span>
+                <span>Respect copyright and only upload original or permitted content</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-500 font-bold">•</span>
+                <span>Maximum file size: 50MB per upload</span>
+              </li>
             </ul>
           </div>
 
           {/* Upload Progress */}
           {loading && (
-            <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-                <span className="font-medium text-primary">Uploading your academic material...</span>
+            <div className="academic-light rounded-2xl p-6 border academic-border">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-8 h-8 border-3 border-current border-t-transparent rounded-full animate-spin academic-text-primary"></div>
+                <span className="font-bold text-lg academic-text-primary">Uploading your academic material...</span>
               </div>
-              <progress className="progress progress-primary w-full"></progress>
-              <p className="text-sm text-gray-600 mt-2">Please wait while we process and upload your file.</p>
+              <progress className="progress academic-secondary w-full h-3"></progress>
+              <p className="text-sm text-gray-600 mt-3">Please wait while we process and upload your file.</p>
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 pt-6">
             <button 
               type="button" 
-              className="btn btn-ghost flex-1 hover:bg-gray-100" 
+              className="btn btn-ghost flex-1 hover:bg-gray-100 h-14 text-lg" 
               onClick={onClose} 
               disabled={loading}
             >
@@ -844,7 +863,7 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
             </button>
             <button 
               type="submit" 
-              className={`btn btn-primary flex-1 shadow-lg hover:shadow-xl ${loading ? 'loading' : ''}`} 
+              className={`btn academic-primary flex-1 shadow-lg hover:shadow-xl h-14 text-lg transition-all hover:-translate-y-1 ${loading ? 'loading' : ''}`} 
               disabled={loading}
             >
               {loading ? 'Uploading Material...' : 'Upload Study Material'}
@@ -856,4 +875,4 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
   );
 };
 
-export default Notes;
+export default Notes;    
