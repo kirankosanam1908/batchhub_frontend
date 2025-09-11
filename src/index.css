@@ -2,56 +2,196 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Force dark theme globally */
+/* ========================================
+   🎨 BATCHHUB SPECIAL COLOR THEMES
+======================================== */
+
 :root {
-  color-scheme: dark only !important;
+  /* 📘 Academic Section - Deep Ocean Blue */
+  --academic-primary: #0f4c75;
+  --academic-secondary: #3282b8;
+  --academic-light: #bbe1fa;
+  --academic-dark: #0b2545;
+  --academic-accent: #1e88e5;
+
+  /* 🎉 Chillout Section - Vibrant Coral Sunset */
+  --chillout-primary: #ff6b6b;
+  --chillout-secondary: #ff8e53;
+  --chillout-light: #ffe66d;
+  --chillout-dark: #ee5a24;
+  --chillout-accent: #ff9ff3;
+
+  /* 🏘️ Communities Section - Royal Purple Galaxy */
+  --communities-primary: #5f27cd;
+  --communities-secondary: #a55eea;
+  --communities-light: #d63031;
+  --communities-dark: #341f97;
+  --communities-accent: #fd79a8;
+
+  /* 🌟 Dashboard/General - Emerald Forest */
+  --dashboard-primary: #00b894;
+  --dashboard-secondary: #00cec9;
+  --dashboard-light: #81ecec;
+  --dashboard-dark: #00a085;
+  --dashboard-accent: #55efc4;
+
+  /* 🎨 Auth/Profile - Elegant Gold & Charcoal */
+  --auth-primary: #fdcb6e;
+  --auth-secondary: #e17055;
+  --auth-light: #fab1a0;
+  --auth-dark: #2d3436;
+  --auth-accent: #f39c12;
+
+  /* 🚨 Status Colors - Neon Accents */
+  --success-color: #00b894;
+  --error-color: #e84393;
+  --warning-color: #fdcb6e;
+  --info-color: #74b9ff;
+
+  /* 🎯 Base Colors */
+  --base-50: #f9fafb;
+  --base-100: #f3f4f6;
+  --base-200: #e5e7eb;
+  --base-300: #d1d5db;
+  --base-400: #9ca3af;
+  --base-500: #6b7280;
+  --base-600: #4b5563;
+  --base-700: #374151;
+  --base-800: #1f2937;
+  --base-900: #111827;
 }
 
-html {
-  --theme: 'dark';
-  color-scheme: dark !important;
+/* ========================================
+   🌈 SPECIAL GRADIENT DEFINITIONS
+======================================== */
+
+.academic-gradient {
+  background: linear-gradient(135deg, var(--academic-primary) 0%, var(--academic-secondary) 100%);
 }
 
-/* Force dark theme regardless of system preference or data-theme */
-html,
-html[data-theme="light"],
-html[data-theme="cupcake"],
-html[data-theme="corporate"],
-html[data-theme="emerald"] {
-  color-scheme: dark !important;
-  --fallback-b1: #1e293b !important;
-  --fallback-b2: #334155 !important;
-  --fallback-b3: #475569 !important;
-  --fallback-bc: #f8fafc !important;
-  
-  /* DaisyUI dark theme variables */
-  --b1: #1e293b !important; /* slate-800 */
-  --b2: #334155 !important; /* slate-700 */
-  --b3: #475569 !important; /* slate-600 */
-  --bc: #f8fafc !important; /* white text */
-  --p: #3b82f6 !important;  /* primary blue */
-  --pc: #ffffff !important; /* primary content */
-  --s: #6366f1 !important;  /* secondary */
-  --sc: #ffffff !important; /* secondary content */
-  --a: #10b981 !important;  /* accent green */
-  --ac: #ffffff !important; /* accent content */
-  --n: #374151 !important;  /* neutral */
-  --nc: #f3f4f6 !important; /* neutral content */
-  --in: #3b82f6 !important; /* info */
-  --inc: #ffffff !important;
-  --su: #10b981 !important; /* success */
-  --suc: #ffffff !important;
-  --wa: #f59e0b !important; /* warning */
-  --wac: #ffffff !important;
-  --er: #ef4444 !important; /* error */
-  --erc: #ffffff !important;
+.chillout-gradient {
+  background: linear-gradient(135deg, var(--chillout-primary) 0%, var(--chillout-secondary) 100%);
 }
 
-/* Override system preference */
-@media (prefers-color-scheme: light) {
-  html {
-    color-scheme: dark !important;
-  }
+.communities-gradient {
+  background: linear-gradient(135deg, var(--communities-primary) 0%, var(--communities-secondary) 100%);
+}
+
+.dashboard-gradient {
+  background: linear-gradient(135deg, var(--dashboard-primary) 0%, var(--dashboard-secondary) 100%);
+}
+
+.auth-gradient {
+  background: linear-gradient(135deg, var(--auth-primary) 0%, var(--auth-secondary) 100%);
+}
+
+/* ========================================
+   📘 ACADEMIC SECTION CLASSES
+======================================== */
+
+.academic-primary { background-color: var(--academic-primary); color: white; }
+.academic-secondary { background-color: var(--academic-secondary); color: white; }
+.academic-light { background-color: var(--academic-light); color: var(--academic-dark); }
+.academic-dark { background-color: var(--academic-dark); color: white; }
+.academic-accent { background-color: var(--academic-accent); color: white; }
+
+.academic-text-primary { color: var(--academic-primary); }
+.academic-text-secondary { color: var(--academic-secondary); }
+.academic-text-dark { color: var(--academic-dark); }
+
+.academic-border { border-color: var(--academic-primary); }
+.academic-border-light { border-color: var(--academic-light); }
+
+/* ========================================
+   🎉 CHILLOUT SECTION CLASSES
+======================================== */
+
+.chillout-primary { background-color: var(--chillout-primary); color: white; }
+.chillout-secondary { background-color: var(--chillout-secondary); color: white; }
+.chillout-light { background-color: var(--chillout-light); color: var(--chillout-dark); }
+.chillout-dark { background-color: var(--chillout-dark); color: white; }
+.chillout-accent { background-color: var(--chillout-accent); color: white; }
+
+.chillout-text-primary { color: var(--chillout-primary); }
+.chillout-text-secondary { color: var(--chillout-secondary); }
+.chillout-text-dark { color: var(--chillout-dark); }
+
+.chillout-border { border-color: var(--chillout-primary); }
+.chillout-border-light { border-color: var(--chillout-light); }
+
+/* ========================================
+   🏘️ COMMUNITIES SECTION CLASSES
+======================================== */
+
+.communities-primary { background-color: var(--communities-primary); color: white; }
+.communities-secondary { background-color: var(--communities-secondary); color: white; }
+.communities-light { background-color: var(--communities-light); color: white; }
+.communities-dark { background-color: var(--communities-dark); color: white; }
+.communities-accent { background-color: var(--communities-accent); color: white; }
+
+.communities-text-primary { color: var(--communities-primary); }
+.communities-text-secondary { color: var(--communities-secondary); }
+.communities-text-dark { color: var(--communities-dark); }
+
+.communities-border { border-color: var(--communities-primary); }
+.communities-border-light { border-color: var(--communities-light); }
+
+/* ========================================
+   🌟 DASHBOARD SECTION CLASSES
+======================================== */
+
+.dashboard-primary { background-color: var(--dashboard-primary); color: white; }
+.dashboard-secondary { background-color: var(--dashboard-secondary); color: white; }
+.dashboard-light { background-color: var(--dashboard-light); color: var(--dashboard-dark); }
+.dashboard-dark { background-color: var(--dashboard-dark); color: white; }
+.dashboard-accent { background-color: var(--dashboard-accent); color: var(--dashboard-dark); }
+
+.dashboard-text-primary { color: var(--dashboard-primary); }
+.dashboard-text-secondary { color: var(--dashboard-secondary); }
+.dashboard-text-dark { color: var(--dashboard-dark); }
+
+.dashboard-border { border-color: var(--dashboard-primary); }
+.dashboard-border-light { border-color: var(--dashboard-light); }
+
+/* ========================================
+   🎨 AUTH/PROFILE SECTION CLASSES
+======================================== */
+
+.auth-primary { background-color: var(--auth-primary); color: var(--auth-dark); }
+.auth-secondary { background-color: var(--auth-secondary); color: white; }
+.auth-light { background-color: var(--auth-light); color: var(--auth-dark); }
+.auth-dark { background-color: var(--auth-dark); color: white; }
+.auth-accent { background-color: var(--auth-accent); color: var(--auth-dark); }
+
+.auth-text-primary { color: var(--auth-primary); }
+.auth-text-secondary { color: var(--auth-secondary); }
+.auth-text-dark { color: var(--auth-dark); }
+
+.auth-border { border-color: var(--auth-primary); }
+.auth-border-dark { border-color: var(--auth-dark); }
+
+/* ========================================
+   🚨 STATUS CLASSES
+======================================== */
+
+.status-success { background-color: var(--success-color); color: white; }
+.status-error { background-color: var(--error-color); color: white; }
+.status-warning { background-color: var(--warning-color); color: var(--base-800); }
+.status-info { background-color: var(--info-color); color: white; }
+
+.status-text-success { color: var(--success-color); }
+.status-text-error { color: var(--error-color); }
+.status-text-warning { color: var(--warning-color); }
+.status-text-info { color: var(--info-color); }
+
+/* ========================================
+   🎯 BASE STYLES
+======================================== */
+
+body {
+  background-color: var(--base-50);
+  color: var(--base-900);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 /* Custom scrollbar */
@@ -61,18 +201,22 @@ html[data-theme="emerald"] {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-base-200;
+  background-color: var(--base-100);
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-base-300 rounded-lg;
+  background-color: var(--base-300);
+  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-base-content/20;
+  background-color: var(--base-400);
 }
 
-/* Custom animations */
+/* ========================================
+   ✨ CUSTOM ANIMATIONS
+======================================== */
+
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -84,119 +228,141 @@ html[data-theme="emerald"] {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 .animate-slide-in {
   animation: slideIn 0.3s ease-out;
 }
 
-@layer base {
-  input, textarea, select {
-    @apply text-slate-200;
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ========================================
+   🎨 COMPONENT SPECIFIC STYLES
+======================================== */
+
+/* Cards */
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Input fields */
+input, textarea, select {
+  border-radius: 8px;
+  border: 2px solid var(--base-200);
+  background-color: white;
+  color: var(--base-900);
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--dashboard-primary);
+  box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
+}
+
+/* Navigation */
+.nav-link {
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+}
+
+.nav-link:hover {
+  background-color: var(--base-100);
+}
+
+.nav-link.active {
+  background-color: var(--dashboard-primary);
+  color: white;
+}
+
+/* Modal */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Loading spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .card {
+    margin: 0.5rem;
+    border-radius: 8px;
   }
   
-  /* Force dark backgrounds */
-  body {
-    background-color: #1e293b !important;
-    color: #f8fafc !important;
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
   }
-}
-
-/* Add this section to your existing CSS file */
-
-/* Override regular Tailwind classes to use DaisyUI dark variables */
-.bg-white { 
-  background-color: var(--b1) !important; 
-  color: var(--bc) !important; 
-}
-
-.bg-gray-50 { 
-  background-color: var(--b2) !important; 
-}
-
-.bg-gray-100 { 
-  background-color: var(--b2) !important; 
-}
-
-.bg-blue-50 { 
-  background-color: color-mix(in srgb, var(--p) 10%, var(--b1)) !important; 
-}
-
-.bg-green-50 { 
-  background-color: color-mix(in srgb, var(--su) 10%, var(--b1)) !important; 
-}
-
-.bg-red-50 { 
-  background-color: color-mix(in srgb, var(--er) 10%, var(--b1)) !important; 
-}
-
-.bg-purple-50 { 
-  background-color: color-mix(in srgb, var(--s) 10%, var(--b1)) !important; 
-}
-
-.bg-yellow-50 { 
-  background-color: color-mix(in srgb, var(--wa) 10%, var(--b1)) !important; 
-}
-
-/* Text color overrides */
-.text-gray-900, .text-gray-800, .text-black { 
-  color: var(--bc) !important; 
-}
-
-.text-gray-700 { 
-  color: color-mix(in srgb, var(--bc) 90%, transparent) !important; 
-}
-
-.text-gray-600 { 
-  color: color-mix(in srgb, var(--bc) 70%, transparent) !important; 
-}
-
-.text-gray-500 { 
-  color: color-mix(in srgb, var(--bc) 60%, transparent) !important; 
-}
-
-/* Border overrides */
-.border-gray-100, .border-gray-200 { 
-  border-color: var(--b3) !important; 
-}
-
-.border-gray-300 { 
-  border-color: color-mix(in srgb, var(--bc) 20%, var(--b1)) !important; 
-}
-
-/* Form elements */
-input, textarea, select, .input, .textarea, .select {
-  background-color: var(--b2) !important;
-  color: var(--bc) !important;
-  border-color: var(--b3) !important;
-}
-
-input:focus, textarea:focus, select:focus, .input:focus, .textarea:focus, .select:focus {
-  border-color: var(--p) !important;
-}
-
-/* Card and modal overrides */
-.card, .modal-box {
-  background-color: var(--b1) !important;
-  color: var(--bc) !important;
-  border-color: var(--b3) !important;
-}
-
-/* Button overrides for better contrast */
-.btn:not(.btn-primary):not(.btn-secondary):not(.btn-accent) {
-  background-color: var(--b2) !important;
-  color: var(--bc) !important;
-  border-color: var(--b3) !important;
-}
-
-.btn:not(.btn-primary):not(.btn-secondary):not(.btn-accent):hover {
-  background-color: var(--b3) !important;
-}
-
-/* Gradient backgrounds - make them work with dark theme */
-.bg-gradient-to-br {
-  background: var(--b1) !important;
-}
-
-/* Specific overrides for your components */
-.from-slate-50, .to-blue-50, .via-blue-50 {
-  background: linear-gradient(to bottom right, var(--b1), var(--b2)) !important;
 }
