@@ -350,7 +350,7 @@ const Notes = () => {
         )}
       </div>
 
-      {/* Upload Modal */}
+      {/* Upload Modal - FIXED MODAL STRUCTURE */}
       {showUploadModal && (
         <UploadStudyMaterialModal
           communityId={communityId}
@@ -505,6 +505,7 @@ const StudyMaterialCard = ({ note, onDownload, onDelete, currentUser, community,
   );
 };
 
+// FIXED MODAL COMPONENT
 const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     title: '',
@@ -525,6 +526,33 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
     'Mobile Development', 'Cybersecurity', 'Mathematics', 'Statistics',
     'Physics', 'Chemistry', 'Electronics', 'Digital Logic'
   ];
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  // Handle backdrop click
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  // Handle escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
 
   // Drag and drop handlers
   const handleDrag = (e) => {
@@ -639,240 +667,250 @@ const UploadStudyMaterialModal = ({ communityId, community, onClose, onSuccess }
   };
 
   return (
-    <div className="modal modal-open modal-backdrop">
-      <div className="modal-content max-w-4xl bg-white rounded-2xl shadow-2xl">
-        <div className="flex justify-between items-center mb-8 pb-6 academic-border-light border-b">
-          <div>
-            <h3 className="text-3xl font-bold academic-text-primary flex items-center gap-3">
-              <ArrowUpTrayIcon className="w-8 h-8 academic-text-accent" />
-              Upload Study Material
-            </h3>
-            <p className="text-gray-600 mt-2 text-lg">Share educational resources with your academic community</p>
-          </div>
-          <button 
-            className="btn btn-ghost btn-circle hover:bg-gray-100 transition-colors" 
-            onClick={onClose}
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </button>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* File Upload Section */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xl font-bold academic-text-dark">Academic File *</span>
-            </label>
-            
-            {/* Drag and Drop Area */}
-            <div
-              className={`border-3 border-dashed rounded-2xl p-12 text-center transition-all ${
-                dragActive 
-                  ? 'academic-border academic-light scale-105 shadow-lg' 
-                  : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
-              }`}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
+    // FIXED MODAL STRUCTURE
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm"
+      onClick={handleBackdropClick}
+    >
+      <div 
+        className="bg-white rounded-2xl shadow-2xl max-w-4xl max-h-[95vh] overflow-y-auto w-full mx-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-8">
+          <div className="flex justify-between items-center mb-8 pb-6 academic-border-light border-b">
+            <div>
+              <h3 className="text-3xl font-bold academic-text-primary flex items-center gap-3">
+                <ArrowUpTrayIcon className="w-8 h-8 academic-text-accent" />
+                Upload Study Material
+              </h3>
+              <p className="text-gray-600 mt-2 text-lg">Share educational resources with your academic community</p>
+            </div>
+            <button 
+              className="btn btn-ghost btn-circle hover:bg-gray-100 transition-colors" 
+              onClick={onClose}
+              type="button"
             >
-              {file ? (
-                <div className="space-y-6">
-                  <CloudArrowUpIcon className="w-20 h-20 mx-auto status-text-success" />
-                  <div>
-                    <p className="font-bold text-xl academic-text-primary">{file.name}</p>
-                    <p className="text-gray-500 text-lg mt-2">
-                      {formatFileSize(file.size)} • {file.type}
-                    </p>
+              <XMarkIcon className="w-6 h-6" />
+            </button>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* File Upload Section */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-xl font-bold academic-text-dark">Academic File *</span>
+              </label>
+              
+              {/* Drag and Drop Area */}
+              <div
+                className={`border-3 border-dashed rounded-2xl p-12 text-center transition-all ${
+                  dragActive 
+                    ? 'academic-border academic-light scale-105 shadow-lg' 
+                    : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                }`}
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+              >
+                {file ? (
+                  <div className="space-y-6">
+                    <CloudArrowUpIcon className="w-20 h-20 mx-auto status-text-success" />
+                    <div>
+                      <p className="font-bold text-xl academic-text-primary">{file.name}</p>
+                      <p className="text-gray-500 text-lg mt-2">
+                        {formatFileSize(file.size)} • {file.type}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setFile(null)}
+                      className="btn btn-outline academic-text-primary hover:academic-primary transition-all"
+                    >
+                      Remove File
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setFile(null)}
-                    className="btn btn-outline academic-text-primary hover:academic-primary transition-all"
+                ) : (
+                  <div className="space-y-6">
+                    <CloudArrowUpIcon className="w-20 h-20 mx-auto text-gray-400" />
+                    <div>
+                      <p className="text-2xl font-bold academic-text-dark">Drop your academic file here</p>
+                      <p className="text-gray-500 mt-3 text-lg">
+                        or click to browse your computer
+                      </p>
+                      <p className="text-sm text-gray-400 mt-3">
+                        Supported: PDF, DOC, PPT, XLS, Images, Text files • Max 50MB
+                      </p>
+                    </div>
+                  </div>
+                )}
+                
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={(e) => handleFileSelect(e.target.files[0])}
+                  accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.txt,.zip,.rar"
+                  id="file-upload"
+                />
+                
+                {!file && (
+                  <label 
+                    htmlFor="file-upload" 
+                    className="btn academic-primary mt-6 cursor-pointer shadow-lg hover:shadow-xl transition-all"
                   >
-                    Remove File
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  <CloudArrowUpIcon className="w-20 h-20 mx-auto text-gray-400" />
-                  <div>
-                    <p className="text-2xl font-bold academic-text-dark">Drop your academic file here</p>
-                    <p className="text-gray-500 mt-3 text-lg">
-                      or click to browse your computer
-                    </p>
-                    <p className="text-sm text-gray-400 mt-3">
-                      Supported: PDF, DOC, PPT, XLS, Images, Text files • Max 50MB
-                    </p>
-                  </div>
-                </div>
-              )}
-              
-              <input
-                type="file"
-                className="hidden"
-                onChange={(e) => handleFileSelect(e.target.files[0])}
-                accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.txt,.zip,.rar"
-                id="file-upload"
-              />
-              
-              {!file && (
-                <label 
-                  htmlFor="file-upload" 
-                  className="btn academic-primary mt-6 cursor-pointer shadow-lg hover:shadow-xl transition-all"
-                >
-                  Choose Academic File
-                </label>
-              )}
-            </div>
-          </div>
-
-          {/* Academic Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-bold academic-text-dark text-lg">Material Title *</span>
-              </label>
-              <input
-                type="text"
-                className="input input-bordered h-14 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="e.g., Database Management Chapter 1 Notes"
-                required
-                maxLength={100}
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-bold academic-text-dark text-lg">Subject *</span>
-              </label>
-              <input
-                type="text"
-                list="subjects"
-                className="input input-bordered h-14 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
-                value={formData.subject}
-                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                placeholder="e.g., Computer Science"
-                required
-                maxLength={50}
-              />
-              <datalist id="subjects">
-                {commonSubjects.map(subject => (
-                  <option key={subject} value={subject} />
-                ))}
-              </datalist>
-            </div>
-          </div>
-
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-bold academic-text-dark text-lg">Description</span>
-            </label>
-            <textarea
-              className="textarea textarea-bordered h-32 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={4}
-              placeholder="Brief description of the content, what topics are covered, difficulty level, etc."
-              maxLength={500}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-bold academic-text-dark text-lg">Semester/Year</span>
-              </label>
-              <input
-                type="text"
-                className="input input-bordered h-12 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
-                value={formData.semester}
-                onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
-                placeholder="e.g., Semester 5, Year 3"
-                maxLength={20}
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-bold academic-text-dark text-lg">Tags</span>
-              </label>
-              <input
-                type="text"
-                className="input input-bordered h-12 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
-                value={formData.tags}
-                onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                placeholder="algorithms, theory, practice, exam-prep"
-                maxLength={200}
-              />
-            </div>
-          </div>
-
-          {/* Academic Guidelines */}
-          <div className="academic-light rounded-2xl p-6 border academic-border-light">
-            <h4 className="font-bold academic-text-primary mb-4 flex items-center gap-2 text-lg">
-              <AcademicCapIcon className="w-6 h-6" />
-              Academic Upload Guidelines
-            </h4>
-            <ul className="text-sm academic-text-dark space-y-2">
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Ensure content is relevant to the course curriculum</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Use clear, descriptive titles and subject names</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Add comprehensive descriptions and relevant tags</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Respect copyright and only upload original or permitted content</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Maximum file size: 50MB per upload</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Upload Progress */}
-          {loading && (
-            <div className="academic-light rounded-2xl p-6 border academic-border">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-8 h-8 border-3 border-current border-t-transparent rounded-full animate-spin academic-text-primary"></div>
-                <span className="font-bold text-lg academic-text-primary">Uploading your academic material...</span>
+                    Choose Academic File
+                  </label>
+                )}
               </div>
-              <progress className="progress academic-secondary w-full h-3"></progress>
-              <p className="text-sm text-gray-600 mt-3">Please wait while we process and upload your file.</p>
             </div>
-          )}
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-6">
-            <button 
-              type="button" 
-              className="btn btn-ghost flex-1 hover:bg-gray-100 h-14 text-lg" 
-              onClick={onClose} 
-              disabled={loading}
-            >
-              Cancel
-            </button>
-            <button 
-              type="submit" 
-              className={`btn academic-primary flex-1 shadow-lg hover:shadow-xl h-14 text-lg transition-all hover:-translate-y-1 ${loading ? 'loading' : ''}`} 
-              disabled={loading}
-            >
-              {loading ? 'Uploading Material...' : 'Upload Study Material'}
-            </button>
-          </div>
-        </form>
+            {/* Academic Details */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-bold academic-text-dark text-lg">Material Title *</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered h-14 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  placeholder="e.g., Database Management Chapter 1 Notes"
+                  required
+                  maxLength={100}
+                />
+              </div>
+
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-bold academic-text-dark text-lg">Subject *</span>
+                </label>
+                <input
+                  type="text"
+                  list="subjects"
+                  className="input input-bordered h-14 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                  placeholder="e.g., Computer Science"
+                  required
+                  maxLength={50}
+                />
+                <datalist id="subjects">
+                  {commonSubjects.map(subject => (
+                    <option key={subject} value={subject} />
+                  ))}
+                </datalist>
+              </div>
+            </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text font-bold academic-text-dark text-lg">Description</span>
+              </label>
+              <textarea
+                className="textarea textarea-bordered h-32 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                rows={4}
+                placeholder="Brief description of the content, what topics are covered, difficulty level, etc."
+                maxLength={500}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-bold academic-text-dark text-lg">Semester/Year</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered h-12 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
+                  value={formData.semester}
+                  onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
+                  placeholder="e.g., Semester 5, Year 3"
+                  maxLength={20}
+                />
+              </div>
+
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-bold academic-text-dark text-lg">Tags</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered h-12 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
+                  value={formData.tags}
+                  onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                  placeholder="algorithms, theory, practice, exam-prep"
+                  maxLength={200}
+                />
+              </div>
+            </div>
+
+            {/* Academic Guidelines */}
+            <div className="academic-light rounded-2xl p-6 border academic-border-light">
+              <h4 className="font-bold academic-text-primary mb-4 flex items-center gap-2 text-lg">
+                <AcademicCapIcon className="w-6 h-6" />
+                Academic Upload Guidelines
+              </h4>
+              <ul className="text-sm academic-text-dark space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Ensure content is relevant to the course curriculum</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Use clear, descriptive titles and subject names</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Add comprehensive descriptions and relevant tags</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Respect copyright and only upload original or permitted content</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Maximum file size: 50MB per upload</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Upload Progress */}
+            {loading && (
+              <div className="academic-light rounded-2xl p-6 border academic-border">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-8 h-8 border-3 border-current border-t-transparent rounded-full animate-spin academic-text-primary"></div>
+                  <span className="font-bold text-lg academic-text-primary">Uploading your academic material...</span>
+                </div>
+                <progress className="progress academic-secondary w-full h-3"></progress>
+                <p className="text-sm text-gray-600 mt-3">Please wait while we process and upload your file.</p>
+              </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+              <button 
+                type="button" 
+                className="btn btn-ghost flex-1 hover:bg-gray-100 h-14 text-lg" 
+                onClick={onClose} 
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                className={`btn academic-primary flex-1 shadow-lg hover:shadow-xl h-14 text-lg transition-all hover:-translate-y-1 ${loading ? 'loading' : ''}`} 
+                disabled={loading}
+              >
+                {loading ? 'Uploading Material...' : 'Upload Study Material'}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Notes;    
+export default Notes;        
