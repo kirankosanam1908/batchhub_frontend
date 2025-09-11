@@ -1,9 +1,58 @@
-
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Force dark theme globally */
+:root {
+  color-scheme: dark only !important;
+}
+
+html {
+  --theme: 'dark';
+  color-scheme: dark !important;
+}
+
+/* Force dark theme regardless of system preference or data-theme */
+html,
+html[data-theme="light"],
+html[data-theme="cupcake"],
+html[data-theme="corporate"],
+html[data-theme="emerald"] {
+  color-scheme: dark !important;
+  --fallback-b1: #1e293b !important;
+  --fallback-b2: #334155 !important;
+  --fallback-b3: #475569 !important;
+  --fallback-bc: #f8fafc !important;
+  
+  /* DaisyUI dark theme variables */
+  --b1: #1e293b !important; /* slate-800 */
+  --b2: #334155 !important; /* slate-700 */
+  --b3: #475569 !important; /* slate-600 */
+  --bc: #f8fafc !important; /* white text */
+  --p: #3b82f6 !important;  /* primary blue */
+  --pc: #ffffff !important; /* primary content */
+  --s: #6366f1 !important;  /* secondary */
+  --sc: #ffffff !important; /* secondary content */
+  --a: #10b981 !important;  /* accent green */
+  --ac: #ffffff !important; /* accent content */
+  --n: #374151 !important;  /* neutral */
+  --nc: #f3f4f6 !important; /* neutral content */
+  --in: #3b82f6 !important; /* info */
+  --inc: #ffffff !important;
+  --su: #10b981 !important; /* success */
+  --suc: #ffffff !important;
+  --wa: #f59e0b !important; /* warning */
+  --wac: #ffffff !important;
+  --er: #ef4444 !important; /* error */
+  --erc: #ffffff !important;
+}
+
+/* Override system preference */
+@media (prefers-color-scheme: light) {
+  html {
+    color-scheme: dark !important;
+  }
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
@@ -41,6 +90,12 @@
 
 @layer base {
   input, textarea, select {
-    @apply text-slate-800 dark:text-slate-200;
+    @apply text-slate-200;
+  }
+  
+  /* Force dark backgrounds */
+  body {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
   }
 }
