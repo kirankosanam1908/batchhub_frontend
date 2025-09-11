@@ -65,7 +65,11 @@ const Academics = () => {
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-4 bg-white backdrop-blur-md rounded-full px-8 py-4 academic-border-light shadow-lg mb-8 border">
             <AcademicCapSolid className="w-10 h-10 academic-text-primary" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold academic-gradient bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent" style={{
+              background: 'linear-gradient(135deg, #0f4c75 0%, #3282b8 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
               Academic Hub
             </h1>
             <div className="text-4xl">📚</div>

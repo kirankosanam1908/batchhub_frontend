@@ -84,7 +84,11 @@ const Communities = () => {
 
           <div className="relative inline-flex items-center gap-4 bg-white backdrop-blur-md rounded-full px-8 py-4 communities-border shadow-lg mb-8 border-2">
             <UserGroupSolid className="w-10 h-10 communities-text-primary" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold communities-gradient bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent" style={{
+              background: 'linear-gradient(135deg, #5f27cd 0%, #a55eea 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
               My Communities
             </h1>
             <div className="flex gap-1 text-3xl">

@@ -129,7 +129,11 @@ const Login = () => {
                   <UserIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-left">
-                  <h1 className="text-2xl font-bold auth-gradient bg-clip-text text-transparent">
+                  <h1 className="text-2xl font-bold bg-clip-text text-transparent" style={{
+                    background: 'linear-gradient(135deg, #fdcb6e 0%, #e17055 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
                     Welcome Back!
                   </h1>
                   <p className="text-sm text-gray-500">Ready to continue your journey?</p>

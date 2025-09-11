@@ -119,7 +119,11 @@ const Register = () => {
                   <UserPlusIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="text-center sm:text-left">
-                  <h1 className="text-xl sm:text-2xl font-bold auth-gradient bg-clip-text text-transparent">
+                  <h1 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent" style={{
+                    background: 'linear-gradient(135deg, #fdcb6e 0%, #e17055 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
                     Join BatchHub
                   </h1>
                   <p className="text-xs sm:text-sm text-gray-500">Your journey starts here!</p>

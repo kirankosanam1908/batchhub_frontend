@@ -133,7 +133,10 @@ const Home = () => {
           </div>
           
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 text-gray-900">
-            <span className="dashboard-gradient bg-clip-text text-transparent">
+            <span 
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)' }}
+            >
               BatchHub
             </span>
           </h1>
@@ -165,6 +168,7 @@ const Home = () => {
                 <Link 
                   to="/register" 
                   className="group auth-gradient text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
+                  
                 >
                   <span>Get Started</span>
                   <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />

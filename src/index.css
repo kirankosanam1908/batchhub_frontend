@@ -6,7 +6,12 @@
    🎨 BATCHHUB SPECIAL COLOR THEMES
 ======================================== */
 
-:root {
+/* Force CSS variables to load properly */
+*,
+*::before,
+*::after,
+:root,
+html {
   /* 📘 Academic Section - Deep Ocean Blue */
   --academic-primary: #0f4c75;
   --academic-secondary: #3282b8;
@@ -66,123 +71,309 @@
 ======================================== */
 
 .academic-gradient {
-  background: linear-gradient(135deg, var(--academic-primary) 0%, var(--academic-secondary) 100%);
+  background: linear-gradient(135deg, var(--academic-primary) 0%, var(--academic-secondary) 100%) !important;
 }
 
 .chillout-gradient {
-  background: linear-gradient(135deg, var(--chillout-primary) 0%, var(--chillout-secondary) 100%);
+  background: linear-gradient(135deg, var(--chillout-primary) 0%, var(--chillout-secondary) 100%) !important;
 }
 
 .communities-gradient {
-  background: linear-gradient(135deg, var(--communities-primary) 0%, var(--communities-secondary) 100%);
+  background: linear-gradient(135deg, var(--communities-primary) 0%, var(--communities-secondary) 100%) !important;
 }
 
 .dashboard-gradient {
-  background: linear-gradient(135deg, var(--dashboard-primary) 0%, var(--dashboard-secondary) 100%);
+  background: linear-gradient(135deg, var(--dashboard-primary) 0%, var(--dashboard-secondary) 100%) !important;
 }
 
 .auth-gradient {
-  background: linear-gradient(135deg, var(--auth-primary) 0%, var(--auth-secondary) 100%);
+  background: linear-gradient(135deg, var(--auth-primary) 0%, var(--auth-secondary) 100%) !important;
 }
 
 /* ========================================
    📘 ACADEMIC SECTION CLASSES
 ======================================== */
 
-.academic-primary { background-color: var(--academic-primary); color: white; }
-.academic-secondary { background-color: var(--academic-secondary); color: white; }
-.academic-light { background-color: var(--academic-light); color: var(--academic-dark); }
-.academic-dark { background-color: var(--academic-dark); color: white; }
-.academic-accent { background-color: var(--academic-accent); color: white; }
+.academic-primary { 
+  background-color: var(--academic-primary) !important; 
+  color: white !important; 
+}
 
-.academic-text-primary { color: var(--academic-primary); }
-.academic-text-secondary { color: var(--academic-secondary); }
-.academic-text-dark { color: var(--academic-dark); }
+.academic-secondary { 
+  background-color: var(--academic-secondary) !important; 
+  color: white !important; 
+}
 
-.academic-border { border-color: var(--academic-primary); }
-.academic-border-light { border-color: var(--academic-light); }
+.academic-light { 
+  background-color: var(--academic-light) !important; 
+  color: var(--academic-dark) !important; 
+}
+
+.academic-dark { 
+  background-color: var(--academic-dark) !important; 
+  color: white !important; 
+}
+
+.academic-accent { 
+  background-color: var(--academic-accent) !important; 
+  color: white !important; 
+}
+
+.academic-text-primary { 
+  color: var(--academic-primary) !important; 
+}
+
+.academic-text-secondary { 
+  color: var(--academic-secondary) !important; 
+}
+
+.academic-text-dark { 
+  color: var(--academic-dark) !important; 
+}
+
+.academic-border { 
+  border-color: var(--academic-primary) !important; 
+}
+
+.academic-border-light { 
+  border-color: var(--academic-light) !important; 
+}
 
 /* ========================================
    🎉 CHILLOUT SECTION CLASSES
 ======================================== */
 
-.chillout-primary { background-color: var(--chillout-primary); color: white; }
-.chillout-secondary { background-color: var(--chillout-secondary); color: white; }
-.chillout-light { background-color: var(--chillout-light); color: var(--chillout-dark); }
-.chillout-dark { background-color: var(--chillout-dark); color: white; }
-.chillout-accent { background-color: var(--chillout-accent); color: white; }
+.chillout-primary { 
+  background-color: var(--chillout-primary) !important; 
+  color: white !important; 
+}
 
-.chillout-text-primary { color: var(--chillout-primary); }
-.chillout-text-secondary { color: var(--chillout-secondary); }
-.chillout-text-dark { color: var(--chillout-dark); }
+.chillout-secondary { 
+  background-color: var(--chillout-secondary) !important; 
+  color: white !important; 
+}
 
-.chillout-border { border-color: var(--chillout-primary); }
-.chillout-border-light { border-color: var(--chillout-light); }
+.chillout-light { 
+  background-color: var(--chillout-light) !important; 
+  color: var(--chillout-dark) !important; 
+}
+
+.chillout-dark { 
+  background-color: var(--chillout-dark) !important; 
+  color: white !important; 
+}
+
+.chillout-accent { 
+  background-color: var(--chillout-accent) !important; 
+  color: white !important; 
+}
+
+.chillout-text-primary { 
+  color: var(--chillout-primary) !important; 
+}
+
+.chillout-text-secondary { 
+  color: var(--chillout-secondary) !important; 
+}
+
+.chillout-text-dark { 
+  color: var(--chillout-dark) !important; 
+}
+
+.chillout-border { 
+  border-color: var(--chillout-primary) !important; 
+}
+
+.chillout-border-light { 
+  border-color: var(--chillout-light) !important; 
+}
 
 /* ========================================
    🏘️ COMMUNITIES SECTION CLASSES
 ======================================== */
 
-.communities-primary { background-color: var(--communities-primary); color: white; }
-.communities-secondary { background-color: var(--communities-secondary); color: white; }
-.communities-light { background-color: var(--communities-light); color: white; }
-.communities-dark { background-color: var(--communities-dark); color: white; }
-.communities-accent { background-color: var(--communities-accent); color: white; }
+.communities-primary { 
+  background-color: var(--communities-primary) !important; 
+  color: white !important; 
+}
 
-.communities-text-primary { color: var(--communities-primary); }
-.communities-text-secondary { color: var(--communities-secondary); }
-.communities-text-dark { color: var(--communities-dark); }
+.communities-secondary { 
+  background-color: var(--communities-secondary) !important; 
+  color: white !important; 
+}
 
-.communities-border { border-color: var(--communities-primary); }
-.communities-border-light { border-color: var(--communities-light); }
+.communities-light { 
+  background-color: var(--communities-light) !important; 
+  color: white !important; 
+}
+
+.communities-dark { 
+  background-color: var(--communities-dark) !important; 
+  color: white !important; 
+}
+
+.communities-accent { 
+  background-color: var(--communities-accent) !important; 
+  color: white !important; 
+}
+
+.communities-text-primary { 
+  color: var(--communities-primary) !important; 
+}
+
+.communities-text-secondary { 
+  color: var(--communities-secondary) !important; 
+}
+
+.communities-text-dark { 
+  color: var(--communities-dark) !important; 
+}
+
+.communities-border { 
+  border-color: var(--communities-primary) !important; 
+}
+
+.communities-border-light { 
+  border-color: var(--communities-light) !important; 
+}
 
 /* ========================================
    🌟 DASHBOARD SECTION CLASSES
 ======================================== */
 
-.dashboard-primary { background-color: var(--dashboard-primary); color: white; }
-.dashboard-secondary { background-color: var(--dashboard-secondary); color: white; }
-.dashboard-light { background-color: var(--dashboard-light); color: var(--dashboard-dark); }
-.dashboard-dark { background-color: var(--dashboard-dark); color: white; }
-.dashboard-accent { background-color: var(--dashboard-accent); color: var(--dashboard-dark); }
+.dashboard-primary { 
+  background-color: var(--dashboard-primary) !important; 
+  color: white !important; 
+}
 
-.dashboard-text-primary { color: var(--dashboard-primary); }
-.dashboard-text-secondary { color: var(--dashboard-secondary); }
-.dashboard-text-dark { color: var(--dashboard-dark); }
+.dashboard-secondary { 
+  background-color: var(--dashboard-secondary) !important; 
+  color: white !important; 
+}
 
-.dashboard-border { border-color: var(--dashboard-primary); }
-.dashboard-border-light { border-color: var(--dashboard-light); }
+.dashboard-light { 
+  background-color: var(--dashboard-light) !important; 
+  color: var(--dashboard-dark) !important; 
+}
+
+.dashboard-dark { 
+  background-color: var(--dashboard-dark) !important; 
+  color: white !important; 
+}
+
+.dashboard-accent { 
+  background-color: var(--dashboard-accent) !important; 
+  color: var(--dashboard-dark) !important; 
+}
+
+.dashboard-text-primary { 
+  color: var(--dashboard-primary) !important; 
+}
+
+.dashboard-text-secondary { 
+  color: var(--dashboard-secondary) !important; 
+}
+
+.dashboard-text-dark { 
+  color: var(--dashboard-dark) !important; 
+}
+
+.dashboard-border { 
+  border-color: var(--dashboard-primary) !important; 
+}
+
+.dashboard-border-light { 
+  border-color: var(--dashboard-light) !important; 
+}
 
 /* ========================================
    🎨 AUTH/PROFILE SECTION CLASSES
 ======================================== */
 
-.auth-primary { background-color: var(--auth-primary); color: var(--auth-dark); }
-.auth-secondary { background-color: var(--auth-secondary); color: white; }
-.auth-light { background-color: var(--auth-light); color: var(--auth-dark); }
-.auth-dark { background-color: var(--auth-dark); color: white; }
-.auth-accent { background-color: var(--auth-accent); color: var(--auth-dark); }
+.auth-primary { 
+  background-color: var(--auth-primary) !important; 
+  color: var(--auth-dark) !important; 
+}
 
-.auth-text-primary { color: var(--auth-primary); }
-.auth-text-secondary { color: var(--auth-secondary); }
-.auth-text-dark { color: var(--auth-dark); }
+.auth-secondary { 
+  background-color: var(--auth-secondary) !important; 
+  color: white !important; 
+}
 
-.auth-border { border-color: var(--auth-primary); }
-.auth-border-dark { border-color: var(--auth-dark); }
+.auth-light { 
+  background-color: var(--auth-light) !important; 
+  color: var(--auth-dark) !important; 
+}
+
+.auth-dark { 
+  background-color: var(--auth-dark) !important; 
+  color: white !important; 
+}
+
+.auth-accent { 
+  background-color: var(--auth-accent) !important; 
+  color: var(--auth-dark) !important; 
+}
+
+.auth-text-primary { 
+  color: var(--auth-primary) !important; 
+}
+
+.auth-text-secondary { 
+  color: var(--auth-secondary) !important; 
+}
+
+.auth-text-dark { 
+  color: var(--auth-dark) !important; 
+}
+
+.auth-border { 
+  border-color: var(--auth-primary) !important; 
+}
+
+.auth-border-dark { 
+  border-color: var(--auth-dark) !important; 
+}
 
 /* ========================================
    🚨 STATUS CLASSES
 ======================================== */
 
-.status-success { background-color: var(--success-color); color: white; }
-.status-error { background-color: var(--error-color); color: white; }
-.status-warning { background-color: var(--warning-color); color: var(--base-800); }
-.status-info { background-color: var(--info-color); color: white; }
+.status-success { 
+  background-color: var(--success-color) !important; 
+  color: white !important; 
+}
 
-.status-text-success { color: var(--success-color); }
-.status-text-error { color: var(--error-color); }
-.status-text-warning { color: var(--warning-color); }
-.status-text-info { color: var(--info-color); }
+.status-error { 
+  background-color: var(--error-color) !important; 
+  color: white !important; 
+}
+
+.status-warning { 
+  background-color: var(--warning-color) !important; 
+  color: var(--base-800) !important; 
+}
+
+.status-info { 
+  background-color: var(--info-color) !important; 
+  color: white !important; 
+}
+
+.status-text-success { 
+  color: var(--success-color) !important; 
+}
+
+.status-text-error { 
+  color: var(--error-color) !important; 
+}
+
+.status-text-warning { 
+  color: var(--warning-color) !important; 
+}
+
+.status-text-info { 
+  color: var(--info-color) !important; 
+}
 
 /* ========================================
    🎯 BASE STYLES
@@ -364,5 +555,40 @@ input:focus, textarea:focus, select:focus {
   .btn {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
+  }
+}
+
+/* ========================================
+   🔧 TAILWIND OVERRIDE UTILITIES
+======================================== */
+
+@layer utilities {
+  /* Force custom properties to work with bg-clip-text */
+  .dashboard-title {
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .academic-title {
+    background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .chillout-title {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .communities-title {
+    background: linear-gradient(135deg, #5f27cd 0%, #a55eea 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }

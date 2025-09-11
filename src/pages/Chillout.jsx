@@ -66,7 +66,11 @@ const Chillout = () => {
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-4 bg-white backdrop-blur-md rounded-full px-8 py-4 chillout-border-light shadow-lg mb-8 border">
             <SparklesSolid className="w-10 h-10 chillout-text-primary" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold chillout-gradient bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent" style={{
+              background: 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
               Chillout Zone
             </h1>
             <div className="text-4xl">🎉</div>
