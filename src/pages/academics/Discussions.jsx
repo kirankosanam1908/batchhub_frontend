@@ -533,6 +533,26 @@ const CreateAcademicQuestionModal = ({ communityId, onClose, onSuccess }) => {
     'distributed-systems', 'programming', 'javascript', 'python', 'java', 'cpp'
   ];
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  // Handle escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -566,164 +586,173 @@ const CreateAcademicQuestionModal = ({ communityId, onClose, onSuccess }) => {
   };
 
   return (
-    <div className="modal modal-open modal-backdrop">
-      <div className="modal-content max-w-5xl bg-white rounded-2xl shadow-2xl">
-        <div className="flex justify-between items-center mb-8 pb-6 academic-border-light border-b">
-          <div>
-            <h3 className="text-3xl font-bold academic-text-primary flex items-center gap-3">
-              <LightBulbIcon className="w-8 h-8 academic-text-accent" />
-              Ask an Academic Question
-            </h3>
-            <p className="text-gray-600 mt-2 text-lg">Get help from your peers and instructors on academic topics</p>
-          </div>
-          <button 
-            className="btn btn-ghost btn-circle hover:bg-gray-100 transition-colors" 
-            onClick={onClose}
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </button>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Question Title */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xl font-bold academic-text-dark">Question Title *</span>
-            </label>
-            <input
-              type="text"
-              className="input input-bordered h-14 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="What specific academic topic or problem do you need help with?"
-              required
-              minLength={10}
-              maxLength={200}
-            />
-            <label className="label">
-              <span className="label-text-alt text-gray-500">
-                Be specific and descriptive. Good titles get better answers (10-200 characters)
-              </span>
-            </label>
-          </div>
-
-          {/* Question Details */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xl font-bold academic-text-dark">Detailed Question *</span>
-            </label>
-            <textarea
-              className="textarea textarea-bordered h-40 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
-              value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              rows={8}
-              placeholder="Provide detailed context:&#10;• What exactly are you trying to understand or solve?&#10;• What have you already tried?&#10;• Where specifically are you getting stuck?&#10;• Include any relevant code, formulas, or examples"
-              required
-              minLength={20}
-              maxLength={3000}
-            />
-            <label className="label">
-              <span className="label-text-alt text-gray-500">
-                The more context you provide, the better answers you'll receive (20-3000 characters)
-              </span>
-            </label>
-          </div>
-
-          {/* Academic Tags Suggestions */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xl font-bold academic-text-dark">Subject Tags</span>
-            </label>
-            <div className="mb-6">
-              <p className="text-sm academic-text-secondary mb-4 font-semibold">Popular academic topics (click to add):</p>
-              <div className="flex flex-wrap gap-3 max-h-40 overflow-y-auto p-4 bg-gray-50 rounded-xl">
-                {academicTopics.map(topic => (
-                  <button
-                    key={topic}
-                    type="button"
-                    onClick={() => {
-                      const currentTags = formData.tags.split(',').map(t => t.trim()).filter(Boolean);
-                      if (!currentTags.includes(topic)) {
-                        const newTags = [...currentTags, topic].join(', ');
-                        setFormData({ ...formData, tags: newTags });
-                      }
-                    }}
-                    disabled={formData.tags.includes(topic)}
-                    className={`btn btn-sm transition-all ${
-                      formData.tags.includes(topic) ? 
-                      'academic-primary opacity-50 cursor-not-allowed' : 
-                      'btn-outline academic-border academic-text-primary hover:academic-primary'
-                    }`}
-                  >
-                    {topic}
-                  </button>
-                ))}
-              </div>
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div 
+        className="bg-white rounded-2xl shadow-2xl max-w-5xl max-h-[95vh] overflow-y-auto w-full mx-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-8">
+          <div className="flex justify-between items-center mb-8 pb-6 academic-border-light border-b">
+            <div>
+              <h3 className="text-3xl font-bold academic-text-primary flex items-center gap-3">
+                <LightBulbIcon className="w-8 h-8 academic-text-accent" />
+                Ask an Academic Question
+              </h3>
+              <p className="text-gray-600 mt-2 text-lg">Get help from your peers and instructors on academic topics</p>
             </div>
-            
-            <input
-              type="text"
-              className="input input-bordered h-12 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
-              value={formData.tags}
-              onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-              placeholder="Add custom tags: algorithms, data-structures, python, etc."
-              maxLength={200}
-            />
-            <label className="label">
-              <span className="label-text-alt text-gray-500">
-                Use relevant tags to help others find and answer your question
-              </span>
-            </label>
-          </div>
-
-          {/* Academic Guidelines */}
-          <div className="academic-light rounded-2xl p-6 border academic-border-light">
-            <h4 className="font-bold academic-text-primary mb-4 flex items-center gap-2 text-lg">
-              <BookOpenIcon className="w-6 h-6" />
-              Academic Question Guidelines
-            </h4>
-            <ul className="text-sm academic-text-dark space-y-2">
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Be specific about your academic level and course context</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Show your work or thought process when applicable</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Ask one clear question per post</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Use proper academic terminology and formatting</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 font-bold">•</span>
-                <span>Search existing questions before posting duplicates</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 pt-6">
             <button 
-              type="button" 
-              className="btn btn-ghost flex-1 hover:bg-gray-100 h-14 text-lg" 
-              onClick={onClose} 
-              disabled={loading}
+              className="btn btn-ghost btn-circle hover:bg-gray-100 transition-colors" 
+              onClick={onClose}
+              type="button"
             >
-              Cancel
-            </button>
-            <button 
-              type="submit" 
-              className={`btn academic-primary flex-1 shadow-lg hover:shadow-xl h-14 text-lg transition-all hover:-translate-y-1 ${loading ? 'loading' : ''}`} 
-              disabled={loading}
-            >
-              {loading ? 'Posting Question...' : 'Post Academic Question'}
+              <XMarkIcon className="w-6 h-6" />
             </button>
           </div>
-        </form>
+          
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Question Title */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-xl font-bold academic-text-dark">Question Title *</span>
+              </label>
+              <input
+                type="text"
+                className="input input-bordered h-14 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="What specific academic topic or problem do you need help with?"
+                required
+                minLength={10}
+                maxLength={200}
+              />
+              <label className="label">
+                <span className="label-text-alt text-gray-500">
+                  Be specific and descriptive. Good titles get better answers (10-200 characters)
+                </span>
+              </label>
+            </div>
+
+            {/* Question Details */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-xl font-bold academic-text-dark">Detailed Question *</span>
+              </label>
+              <textarea
+                className="textarea textarea-bordered h-40 text-lg academic-border focus:academic-border focus:shadow-lg transition-all"
+                value={formData.content}
+                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                rows={8}
+                placeholder="Provide detailed context:&#10;• What exactly are you trying to understand or solve?&#10;• What have you already tried?&#10;• Where specifically are you getting stuck?&#10;• Include any relevant code, formulas, or examples"
+                required
+                minLength={20}
+                maxLength={3000}
+              />
+              <label className="label">
+                <span className="label-text-alt text-gray-500">
+                  The more context you provide, the better answers you'll receive (20-3000 characters)
+                </span>
+              </label>
+            </div>
+
+            {/* Academic Tags Suggestions */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-xl font-bold academic-text-dark">Subject Tags</span>
+              </label>
+              <div className="mb-6">
+                <p className="text-sm academic-text-secondary mb-4 font-semibold">Popular academic topics (click to add):</p>
+                <div className="flex flex-wrap gap-3 max-h-40 overflow-y-auto p-4 bg-gray-50 rounded-xl">
+                  {academicTopics.map(topic => (
+                    <button
+                      key={topic}
+                      type="button"
+                      onClick={() => {
+                        const currentTags = formData.tags.split(',').map(t => t.trim()).filter(Boolean);
+                        if (!currentTags.includes(topic)) {
+                          const newTags = [...currentTags, topic].join(', ');
+                          setFormData({ ...formData, tags: newTags });
+                        }
+                      }}
+                      disabled={formData.tags.includes(topic)}
+                      className={`btn btn-sm transition-all ${
+                        formData.tags.includes(topic) ? 
+                        'academic-primary opacity-50 cursor-not-allowed' : 
+                        'btn-outline academic-border academic-text-primary hover:academic-primary'
+                      }`}
+                    >
+                      {topic}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <input
+                type="text"
+                className="input input-bordered h-12 text-base academic-border focus:academic-border focus:shadow-lg transition-all"
+                value={formData.tags}
+                onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                placeholder="Add custom tags: algorithms, data-structures, python, etc."
+                maxLength={200}
+              />
+              <label className="label">
+                <span className="label-text-alt text-gray-500">
+                  Use relevant tags to help others find and answer your question
+                </span>
+              </label>
+            </div>
+
+            {/* Academic Guidelines */}
+            <div className="academic-light rounded-2xl p-6 border academic-border-light">
+              <h4 className="font-bold academic-text-primary mb-4 flex items-center gap-2 text-lg">
+                <BookOpenIcon className="w-6 h-6" />
+                Academic Question Guidelines
+              </h4>
+              <ul className="text-sm academic-text-dark space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Be specific about your academic level and course context</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Show your work or thought process when applicable</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Ask one clear question per post</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Use proper academic terminology and formatting</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <span>Search existing questions before posting duplicates</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+              <button 
+                type="button" 
+                className="btn btn-ghost flex-1 hover:bg-gray-100 h-14 text-lg" 
+                onClick={onClose} 
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                className={`btn academic-primary flex-1 shadow-lg hover:shadow-xl h-14 text-lg transition-all hover:-translate-y-1 ${loading ? 'loading' : ''}`} 
+                disabled={loading}
+              >
+                {loading ? 'Posting Question...' : 'Post Academic Question'}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
@@ -737,6 +766,26 @@ const AcademicThreadDetailModal = ({ thread, onClose, onUpdate, currentUser, isM
 
   const isAuthor = threadData.author?._id === currentUser?._id;
   const canModerate = isModerator || isAuthor;
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  // Handle escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
 
   useEffect(() => {
     fetchThreadDetails();
@@ -812,319 +861,327 @@ const AcademicThreadDetailModal = ({ thread, onClose, onUpdate, currentUser, isM
   const netVotes = (threadData.upvotes?.length || 0) - (threadData.downvotes?.length || 0);
 
   return (
-    <div className="modal modal-open modal-backdrop">
-      <div className="modal-content max-w-7xl max-h-[95vh] overflow-hidden flex flex-col bg-white rounded-2xl shadow-2xl">
-        <div className="flex justify-between items-start mb-8 pb-6 academic-border-light border-b">
-          <div className="flex-1 pr-4">
-            <div className="flex items-center gap-3 mb-3">
-              {threadData.isPinned && (
-                <div className="flex items-center gap-1 status-warning px-3 py-1 rounded-full text-sm font-bold">
-                  <StarSolid className="w-4 h-4" />
-                  <span>IMPORTANT QUESTION</span>
-                </div>
-              )}
-              {threadData.isResolved && (
-                <div className="flex items-center gap-1 status-success px-3 py-1 rounded-full text-sm font-bold">
-                  <CheckCircleSolid className="w-4 h-4" />
-                  <span>RESOLVED</span>
-                </div>
-              )}
-            </div>
-            <h2 className="text-3xl font-bold academic-text-primary leading-tight">
-              {threadData.title}
-            </h2>
-            <p className="text-gray-600 mt-2 text-lg">Academic discussion in {threadData.community?.name}</p>
-          </div>
-          <button 
-            className="btn btn-ghost btn-circle hover:bg-gray-100 transition-colors" 
-            onClick={onClose}
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto">
-          {/* Original Question */}
-          <div className="academic-gradient rounded-2xl p-8 mb-8 border academic-border-light">
-            <div className="flex gap-8">
-              {/* Academic Voting */}
-              <div className="flex flex-col items-center gap-4 min-w-[110px]">
-                <button
-                  onClick={() => handleVote('upvote')}
-                  className={`p-4 rounded-full transition-all hover:scale-110 shadow-lg ${
-                    hasUpvoted ? 'bg-white academic-text-primary' : 'bg-white/20 hover:bg-white hover:academic-text-primary text-white'
-                  }`}
-                  title="This question is well-researched and useful"
-                >
-                  <HandThumbUpIcon className="w-6 h-6" />
-                </button>
-                
-                <div className={`px-5 py-3 rounded-full font-bold text-2xl shadow-lg ${
-                  netVotes > 0 ? 'bg-green-100 text-green-600' : 
-                  netVotes < 0 ? 'bg-red-100 text-red-600' : 
-                  'bg-white text-gray-600'
-                }`}>
-                  {netVotes > 0 ? `+${netVotes}` : netVotes}
-                </div>
-                
-                <button
-                  onClick={() => handleVote('downvote')}
-                  className={`p-4 rounded-full transition-all hover:scale-110 shadow-lg ${
-                    hasDownvoted ? 'bg-red-500 text-white' : 'bg-white/20 hover:bg-red-500 hover:text-white text-white'
-                  }`}
-                  title="This question lacks research or clarity"
-                >
-                  <HandThumbDownIcon className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* Question Content */}
-              <div className="flex-1">
-                <div className="flex items-center gap-4 mb-5">
-                  <img 
-                    src={threadData.author?.profilePicture || `https://ui-avatars.com/api/?name=${threadData.author?.name}&background=ffffff&color=0f4c75`} 
-                    alt={threadData.author?.name}
-                    className="w-14 h-14 rounded-full border-3 border-white shadow-md"
-                  />
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-white text-lg">{threadData.author?.name}</span>
-                      {threadData.author?.role === 'teacher' && (
-                        <span className="px-3 py-1 bg-purple-100 text-purple-600 text-xs rounded-full font-bold">
-
-                          👨‍🏫 TEACHER
-                        </span>
-                      )}
-                      {threadData.author?.role === 'cr' && (
-                        <span className="px-3 py-1 bg-white/20 text-white text-xs rounded-full font-bold">
-                          👑 CLASS REPRESENTATIVE
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-white/80 text-base">
-                      Asked {formatDistanceToNow(new Date(threadData.createdAt))} ago • {threadData.views || 0} views
-                    </span>
-                  </div>
-                </div>
-
-                <div className="prose max-w-none mb-5">
-                  <p className="whitespace-pre-wrap text-white text-xl leading-relaxed">
-                    {threadData.content}
-                  </p>
-                </div>
-
-                {threadData.tags && threadData.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-3 mb-5">
-                    {threadData.tags.map(tag => (
-                      <span key={tag} className="px-4 py-2 bg-white/20 text-white rounded-full text-sm font-semibold backdrop-blur-sm">
-                        #{tag}
-                      </span>
-                    ))}
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div 
+        className="bg-white rounded-2xl shadow-2xl max-w-7xl max-h-[95vh] overflow-hidden flex flex-col w-full mx-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-8">
+          <div className="flex justify-between items-start mb-8 pb-6 academic-border-light border-b">
+            <div className="flex-1 pr-4">
+              <div className="flex items-center gap-3 mb-3">
+                {threadData.isPinned && (
+                  <div className="flex items-center gap-1 status-warning px-3 py-1 rounded-full text-sm font-bold">
+                    <StarSolid className="w-4 h-4" />
+                    <span>IMPORTANT QUESTION</span>
                   </div>
                 )}
-
-                {/* Moderation Actions */}
-                {canModerate && (
-                  <div className="flex gap-4 pt-5 border-t border-white/20">
-                    <button
-                      onClick={handlePin}
-                      className={`btn btn-sm ${
-                        threadData.isPinned ? 'status-warning' : 'btn-outline text-white border-white hover:status-warning'
-                      }`}
-                    >
-                      {threadData.isPinned ? (
-                        <>
-                          <StarSolid className="w-4 h-4 mr-1" />
-                          Remove from Important
-                        </>
-                      ) : (
-                        <>
-                          <StarIcon className="w-4 h-4 mr-1" />
-                          Mark as Important
-                        </>
-                      )}
-                    </button>
-                    <button
-                      onClick={handleResolve}
-                      className={`btn btn-sm ${
-                        threadData.isResolved ? 'status-success' : 'btn-outline text-white border-white hover:status-success'
-                      }`}
-                    >
-                      {threadData.isResolved ? (
-                        <>
-                          <CheckCircleSolid className="w-4 h-4 mr-1" />
-                          Reopen Question
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircleIcon className="w-4 h-4 mr-1" />
-                          Mark as Resolved
-                        </>
-                      )}
-                    </button>
+                {threadData.isResolved && (
+                  <div className="flex items-center gap-1 status-success px-3 py-1 rounded-full text-sm font-bold">
+                    <CheckCircleSolid className="w-4 h-4" />
+                    <span>RESOLVED</span>
                   </div>
                 )}
               </div>
+              <h2 className="text-3xl font-bold academic-text-primary leading-tight">
+                {threadData.title}
+              </h2>
+              <p className="text-gray-600 mt-2 text-lg">Academic discussion in {threadData.community?.name}</p>
             </div>
+            <button 
+              className="btn btn-ghost btn-circle hover:bg-gray-100 transition-colors" 
+              onClick={onClose}
+              type="button"
+            >
+              <XMarkIcon className="w-6 h-6" />
+            </button>
           </div>
 
-          {/* Answers Section */}
-          <div className="flex items-center gap-4 mb-8">
-            <ChatBubbleLeftRightIcon className="w-7 h-7 academic-text-accent" />
-            <h3 className="text-2xl font-bold academic-text-primary">
-              {threadData.replies?.length || 0} Academic {threadData.replies?.length === 1 ? 'Answer' : 'Answers'}
-            </h3>
-            {threadData.replies?.length > 0 && (
-              <span className="text-gray-500 text-base">
-                Knowledge shared by the community
-              </span>
-            )}
-          </div>
-
-          {/* Answers List */}
-          {repliesLoading ? (
-            <div className="flex justify-center py-16">
-              <div className="text-center">
-                <div className="w-12 h-12 border-4 academic-border border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="academic-text-primary font-semibold">Loading academic answers...</p>
-              </div>
-            </div>
-          ) : threadData.replies?.length === 0 ? (
-            <div className="card bg-white shadow-lg p-16 text-center academic-border border-2 mb-8">
-              <BookOpenIcon className="w-20 h-20 mx-auto academic-text-light mb-4" />
-              <h4 className="text-2xl font-bold academic-text-primary mb-3">No answers yet</h4>
-              <p className="text-gray-500 mb-4 text-lg">Be the first to provide an academic solution to this question.</p>
-              <div className="text-sm academic-text-secondary">
-                💡 Tip: Provide detailed explanations, examples, and cite sources when possible
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-8 mb-8">
-              {threadData.replies?.map((reply, index) => (
-                <div key={reply._id} className="card bg-white shadow-xl hover:shadow-2xl transition-shadow border-0">
-                  <div className="p-8">
-                    <div className="flex items-start gap-6">
-                      <img 
-                        src={reply.author?.profilePicture || `https://ui-avatars.com/api/?name=${reply.author?.name}&background=3b82f6&color=ffffff`} 
-                        alt={reply.author?.name}
-                        className="w-14 h-14 rounded-full border-2 border-gray-100 flex-shrink-0"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-4">
-                          <span className="font-bold academic-text-primary text-lg">{reply.author?.name}</span>
-                          {reply.author?.role === 'teacher' && (
-                            <span className="px-3 py-1 bg-purple-100 text-purple-600 text-sm rounded-full font-bold">
-                              👨‍🏫 TEACHER
-                            </span>
-                          )}
-                          {reply.author?.role === 'cr' && (
-                            <span className="px-3 py-1 academic-light text-sm rounded-full font-bold">
-                              👑 CR
-                            </span>
-                          )}
-                          {reply.isAccepted && (
-                            <span className="px-3 py-1 status-success text-sm rounded-full font-bold flex items-center gap-1">
-                              <CheckCircleSolid className="w-4 h-4" />
-                              ACCEPTED ANSWER
-                            </span>
-                          )}
-                          <span className="text-gray-400 text-base">•</span>
-                          <span className="text-gray-500 text-base">
-                            {formatDistanceToNow(new Date(reply.createdAt))} ago
-                          </span>
-                        </div>
-                        <div className="prose prose-lg max-w-none">
-                          <p className="whitespace-pre-wrap leading-relaxed text-gray-700 text-lg">
-                            {reply.content}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 text-base text-gray-500">
-                        <button className="p-3 rounded-full hover:bg-gray-100 transition-colors">
-                          <HandThumbUpIcon className="w-5 h-5" />
-                        </button>
-                        <span className="font-semibold">{reply.upvotes?.length || 0}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Academic Answer Form */}
-        <div className="border-t academic-border-light pt-8 mt-8 academic-light rounded-b-2xl">
-          <form onSubmit={handleReply}>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text text-xl font-bold academic-text-primary flex items-center gap-2">
-                  <LightBulbIcon className="w-6 h-6" />
-                  Provide Your Academic Answer
-                </span>
-              </label>
-              <div className="flex gap-6">
-                <img 
-                  src={currentUser?.profilePicture || `https://ui-avatars.com/api/?name=${currentUser?.name}&background=3b82f6&color=ffffff`} 
-                  alt={currentUser?.name}
-                  className="w-14 h-14 rounded-full border-2 border-gray-200 flex-shrink-0 mt-2"
-                />
-                <div className="flex-1">
-                  <textarea
-                    className="textarea textarea-bordered w-full academic-border focus:academic-border bg-white min-h-[140px] text-lg"
-                    value={reply}
-                    onChange={(e) => setReply(e.target.value)}
-                    rows={7}
-                    placeholder="Provide a comprehensive academic answer:&#10;• Explain the concept or solution step by step&#10;• Include examples, formulas, or code if relevant&#10;• Cite sources or reference materials&#10;• Be clear and educational in your explanation"
-                    required
-                    minLength={10}
-                    maxLength={3000}
-                  />
+          <div className="flex-1 overflow-y-auto">
+            {/* Original Question */}
+            <div className="academic-gradient rounded-2xl p-8 mb-8 border academic-border-light">
+              <div className="flex gap-8">
+                {/* Academic Voting */}
+                <div className="flex flex-col items-center gap-4 min-w-[110px]">
+                  <button
+                    onClick={() => handleVote('upvote')}
+                    className={`p-4 rounded-full transition-all hover:scale-110 shadow-lg ${
+                      hasUpvoted ? 'bg-white academic-text-primary' : 'bg-white/20 hover:bg-white hover:academic-text-primary text-white'
+                    }`}
+                    title="This question is well-researched and useful"
+                  >
+                    <HandThumbUpIcon className="w-6 h-6" />
+                  </button>
                   
-                  {/* Academic Answer Guidelines */}
-                  <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-sm academic-text-primary font-bold mb-2">📚 Academic Answer Guidelines:</p>
-                    <ul className="text-xs academic-text-secondary space-y-1">
-                      <li>• Provide clear, step-by-step explanations</li>
-                      <li>• Include relevant examples or demonstrations</li>
-                      <li>• Use proper academic language and formatting</li>
-                      <li>• Cite sources or reference materials when applicable</li>
-                    </ul>
+                  <div className={`px-5 py-3 rounded-full font-bold text-2xl shadow-lg ${
+                    netVotes > 0 ? 'bg-green-100 text-green-600' : 
+                    netVotes < 0 ? 'bg-red-100 text-red-600' : 
+                    'bg-white text-gray-600'
+                  }`}>
+                    {netVotes > 0 ? `+${netVotes}` : netVotes}
+                  </div>
+                  
+                  <button
+                    onClick={() => handleVote('downvote')}
+                    className={`p-4 rounded-full transition-all hover:scale-110 shadow-lg ${
+                      hasDownvoted ? 'bg-red-500 text-white' : 'bg-white/20 hover:bg-red-500 hover:text-white text-white'
+                    }`}
+                    title="This question lacks research or clarity"
+                  >
+                    <HandThumbDownIcon className="w-6 h-6" />
+                  </button>
+                </div>
+
+                {/* Question Content */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-4 mb-5">
+                    <img 
+                      src={threadData.author?.profilePicture || `https://ui-avatars.com/api/?name=${threadData.author?.name}&background=ffffff&color=0f4c75`} 
+                      alt={threadData.author?.name}
+                      className="w-14 h-14 rounded-full border-3 border-white shadow-md"
+                    />
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-white text-lg">{threadData.author?.name}</span>
+                        {threadData.author?.role === 'teacher' && (
+                          <span className="px-3 py-1 bg-purple-100 text-purple-600 text-xs rounded-full font-bold">
+                            👨‍🏫 TEACHER
+                          </span>
+                        )}
+                        {threadData.author?.role === 'cr' && (
+                          <span className="px-3 py-1 bg-white/20 text-white text-xs rounded-full font-bold">
+                            👑 CLASS REPRESENTATIVE
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-white/80 text-base">
+                        Asked {formatDistanceToNow(new Date(threadData.createdAt))} ago • {threadData.views || 0} views
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="flex justify-between items-center mt-6">
-                    <div className="text-base academic-text-secondary flex items-center gap-2">
-                      <span>📝</span>
-                      <span>Writing a quality answer helps the entire academic community</span>
+                  <div className="prose max-w-none mb-5">
+                    <p className="whitespace-pre-wrap text-white text-xl leading-relaxed">
+                      {threadData.content}
+                    </p>
+                  </div>
+
+                  {threadData.tags && threadData.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-3 mb-5">
+                      {threadData.tags.map(tag => (
+                        <span key={tag} className="px-4 py-2 bg-white/20 text-white rounded-full text-sm font-semibold backdrop-blur-sm">
+                          #{tag}
+                        </span>
+                      ))}
                     </div>
-                    <div className="flex gap-4 items-center">
-                      <div className="text-sm text-gray-400">
-                        {reply.length}/3000 characters
-                      </div>
+                  )}
+
+                  {/* Moderation Actions */}
+                  {canModerate && (
+                    <div className="flex gap-4 pt-5 border-t border-white/20">
                       <button
-                        type="submit"
-                        className={`btn academic-primary shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 ${loading ? 'loading' : ''}`}
-                        disabled={loading || !reply.trim()}
+                        onClick={handlePin}
+                        className={`btn btn-sm ${
+                          threadData.isPinned ? 'status-warning' : 'btn-outline text-white border-white hover:status-warning'
+                        }`}
                       >
-                        {loading ? (
-                          <span>Posting Answer...</span>
+                        {threadData.isPinned ? (
+                          <>
+                            <StarSolid className="w-4 h-4 mr-1" />
+                            Remove from Important
+                          </>
                         ) : (
                           <>
-                            <BookOpenIcon className="w-5 h-5 mr-2" />
-                            Post Academic Answer
+                            <StarIcon className="w-4 h-4 mr-1" />
+                            Mark as Important
+                          </>
+                        )}
+                      </button>
+                      <button
+                        onClick={handleResolve}
+                        className={`btn btn-sm ${
+                          threadData.isResolved ? 'status-success' : 'btn-outline text-white border-white hover:status-success'
+                        }`}
+                      >
+                        {threadData.isResolved ? (
+                          <>
+                            <CheckCircleSolid className="w-4 h-4 mr-1" />
+                            Reopen Question
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircleIcon className="w-4 h-4 mr-1" />
+                            Mark as Resolved
                           </>
                         )}
                       </button>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
-          </form>
+
+            {/* Answers Section */}
+            <div className="flex items-center gap-4 mb-8">
+              <ChatBubbleLeftRightIcon className="w-7 h-7 academic-text-accent" />
+              <h3 className="text-2xl font-bold academic-text-primary">
+                {threadData.replies?.length || 0} Academic {threadData.replies?.length === 1 ? 'Answer' : 'Answers'}
+              </h3>
+              {threadData.replies?.length > 0 && (
+                <span className="text-gray-500 text-base">
+                  Knowledge shared by the community
+                </span>
+              )}
+            </div>
+
+            {/* Answers List */}
+            {repliesLoading ? (
+              <div className="flex justify-center py-16">
+                <div className="text-center">
+                  <div className="w-12 h-12 border-4 academic-border border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                  <p className="academic-text-primary font-semibold">Loading academic answers...</p>
+                </div>
+              </div>
+            ) : threadData.replies?.length === 0 ? (
+              <div className="card bg-white shadow-lg p-16 text-center academic-border border-2 mb-8">
+                <BookOpenIcon className="w-20 h-20 mx-auto academic-text-light mb-4" />
+                <h4 className="text-2xl font-bold academic-text-primary mb-3">No answers yet</h4>
+                <p className="text-gray-500 mb-4 text-lg">Be the first to provide an academic solution to this question.</p>
+                <div className="text-sm academic-text-secondary">
+                  💡 Tip: Provide detailed explanations, examples, and cite sources when possible
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-8 mb-8">
+                {threadData.replies?.map((reply, index) => (
+                  <div key={reply._id} className="card bg-white shadow-xl hover:shadow-2xl transition-shadow border-0">
+                    <div className="p-8">
+                      <div className="flex items-start gap-6">
+                        <img 
+                          src={reply.author?.profilePicture || `https://ui-avatars.com/api/?name=${reply.author?.name}&background=3b82f6&color=ffffff`} 
+                          alt={reply.author?.name}
+                          className="w-14 h-14 rounded-full border-2 border-gray-100 flex-shrink-0"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-4">
+                            <span className="font-bold academic-text-primary text-lg">{reply.author?.name}</span>
+                            {reply.author?.role === 'teacher' && (
+                              <span className="px-3 py-1 bg-purple-100 text-purple-600 text-sm rounded-full font-bold">
+                                👨‍🏫 TEACHER
+                              </span>
+                            )}
+                            {reply.author?.role === 'cr' && (
+                              <span className="px-3 py-1 academic-light text-sm rounded-full font-bold">
+                                👑 CR
+                              </span>
+                            )}
+                            {reply.isAccepted && (
+                              <span className="px-3 py-1 status-success text-sm rounded-full font-bold flex items-center gap-1">
+                                <CheckCircleSolid className="w-4 h-4" />
+                                ACCEPTED ANSWER
+                              </span>
+                            )}
+                            <span className="text-gray-400 text-base">•</span>
+                            <span className="text-gray-500 text-base">
+                              {formatDistanceToNow(new Date(reply.createdAt))} ago
+                            </span>
+                          </div>
+                          <div className="prose prose-lg max-w-none">
+                            <p className="whitespace-pre-wrap leading-relaxed text-gray-700 text-lg">
+                              {reply.content}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3 text-base text-gray-500">
+                          <button className="p-3 rounded-full hover:bg-gray-100 transition-colors">
+                            <HandThumbUpIcon className="w-5 h-5" />
+                          </button>
+                          <span className="font-semibold">{reply.upvotes?.length || 0}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Academic Answer Form */}
+          <div className="border-t academic-border-light pt-8 mt-8 academic-light rounded-b-2xl">
+            <form onSubmit={handleReply}>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text text-xl font-bold academic-text-primary flex items-center gap-2">
+                    <LightBulbIcon className="w-6 h-6" />
+                    Provide Your Academic Answer
+                  </span>
+                </label>
+                <div className="flex gap-6">
+                  <img 
+                    src={currentUser?.profilePicture || `https://ui-avatars.com/api/?name=${currentUser?.name}&background=3b82f6&color=ffffff`} 
+                    alt={currentUser?.name}
+                    className="w-14 h-14 rounded-full border-2 border-gray-200 flex-shrink-0 mt-2"
+                  />
+                  <div className="flex-1">
+                    <textarea
+                      className="textarea textarea-bordered w-full academic-border focus:academic-border bg-white min-h-[140px] text-lg"
+                      value={reply}
+                      onChange={(e) => setReply(e.target.value)}
+                      rows={7}
+                      placeholder="Provide a comprehensive academic answer:&#10;• Explain the concept or solution step by step&#10;• Include examples, formulas, or code if relevant&#10;• Cite sources or reference materials&#10;• Be clear and educational in your explanation"
+                      required
+                      minLength={10}
+                      maxLength={3000}
+                    />
+                    
+                    {/* Academic Answer Guidelines */}
+                    <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                      <p className="text-sm academic-text-primary font-bold mb-2">📚 Academic Answer Guidelines:</p>
+                      <ul className="text-xs academic-text-secondary space-y-1">
+                        <li>• Provide clear, step-by-step explanations</li>
+                        <li>• Include relevant examples or demonstrations</li>
+                        <li>• Use proper academic language and formatting</li>
+                        <li>• Cite sources or reference materials when applicable</li>
+                      </ul>
+                    </div>
+
+                    <div className="flex justify-between items-center mt-6">
+                      <div className="text-base academic-text-secondary flex items-center gap-2">
+                        <span>📝</span>
+                        <span>Writing a quality answer helps the entire academic community</span>
+                      </div>
+                      <div className="flex gap-4 items-center">
+                        <div className="text-sm text-gray-400">
+                          {reply.length}/3000 characters
+                        </div>
+                        <button
+                          type="submit"
+                          className={`btn academic-primary shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 ${loading ? 'loading' : ''}`}
+                          disabled={loading || !reply.trim()}
+                        >
+                          {loading ? (
+                            <span>Posting Answer...</span>
+                          ) : (
+                            <>
+                              <BookOpenIcon className="w-5 h-5 mr-2" />
+                              Post Academic Answer
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Discussions;                          
+export default Discussions;
