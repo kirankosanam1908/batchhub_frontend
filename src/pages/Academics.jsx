@@ -63,16 +63,16 @@ const Academics = () => {
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12 max-w-7xl">
         {/* Hero Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-4 bg-white backdrop-blur-md rounded-full px-8 py-4 academic-border-light shadow-lg mb-8 border">
-            <AcademicCapSolid className="w-10 h-10 academic-text-primary" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent" style={{
+          <div className="inline-flex items-center gap-2 sm:gap-4 bg-white backdrop-blur-md rounded-full px-4 sm:px-6 lg:px-8 py-3 sm:py-4 academic-border-light shadow-lg mb-6 sm:mb-8 border max-w-full">
+            <AcademicCapSolid className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 academic-text-primary flex-shrink-0" />
+            <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-clip-text text-transparent leading-tight" style={{
               background: 'linear-gradient(135deg, #0f4c75 0%, #3282b8 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
               Academic Hub
             </h1>
-            <div className="text-4xl">📚</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl flex-shrink-0">📚</div>
           </div>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">

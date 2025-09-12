@@ -82,16 +82,16 @@ const Communities = () => {
             <div className="absolute bottom-10 left-20 w-12 h-12 communities-accent opacity-10 rounded-full animate-pulse delay-700"></div>
           </div>
 
-          <div className="relative inline-flex items-center gap-4 bg-white backdrop-blur-md rounded-full px-8 py-4 communities-border shadow-lg mb-8 border-2">
-            <UserGroupSolid className="w-10 h-10 communities-text-primary" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent" style={{
+          <div className="relative inline-flex items-center gap-2 sm:gap-4 bg-white backdrop-blur-md rounded-full px-4 sm:px-6 lg:px-8 py-3 sm:py-4 communities-border shadow-lg mb-6 sm:mb-8 border-2 max-w-full">
+            <UserGroupSolid className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 communities-text-primary flex-shrink-0" />
+            <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-clip-text text-transparent leading-tight" style={{
               background: 'linear-gradient(135deg, #5f27cd 0%, #a55eea 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
               My Communities
             </h1>
-            <div className="flex gap-1 text-3xl">
+            <div className="flex gap-1 text-base sm:text-lg lg:text-xl flex-shrink-0">
               <span className="animate-bounce">👥</span>
               <span className="animate-pulse delay-100">✨</span>
             </div>
