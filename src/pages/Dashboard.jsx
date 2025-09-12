@@ -109,16 +109,17 @@ const Dashboard = () => {
         
         {/* Hero Welcome Section */}
         <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-4 bg-white backdrop-blur-md rounded-full px-8 py-4 border border-gray-200 shadow-lg mb-8">
-            <StarSolid className="w-10 h-10 dashboard-text-primary" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent" style={{
+          <div className="inline-flex items-center gap-2 sm:gap-4 bg-white backdrop-blur-md rounded-full px-4 sm:px-6 lg:px-8 py-3 sm:py-4 border border-gray-200 shadow-lg mb-6 sm:mb-8 max-w-full">
+            <StarSolid className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 dashboard-text-primary flex-shrink-0" />
+            <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-clip-text text-transparent leading-tight" style={{
               background: 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
-              {getGreeting()}, {user?.name}!
+              <span className="block sm:inline">{getGreeting()},</span>{' '}
+              <span className="block sm:inline">{user?.name}!</span>
             </h1>
-            <div className="text-4xl">👋</div>
+            <div className="text-xl sm:text-2xl lg:text-3xl flex-shrink-0">👋</div>
           </div>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
