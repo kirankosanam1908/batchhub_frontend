@@ -29,7 +29,7 @@ html {
   /* 🏘️ Communities Section - Royal Purple Galaxy */
   --communities-primary: #5f27cd;
   --communities-secondary: #a55eea;
-  --communities-light: #d63031;
+  --communities-light: #e47979;
   --communities-dark: #341f97;
   --communities-accent: #fd79a8;
 
@@ -43,14 +43,14 @@ html {
   /* 🎨 Auth/Profile - Elegant Gold & Charcoal */
   --auth-primary: #fdcb6e;
   --auth-secondary: #e17055;
-  --auth-light: #fab1a0;
+  --auth-light: #f8d4cb;
   --auth-dark: #2d3436;
   --auth-accent: #f39c12;
 
   /* 🚨 Status Colors - Neon Accents */
   --success-color: #00b894;
   --error-color: #e84393;
-  --warning-color: #fdcb6e;
+  --warning-color: #040303;
   --info-color: #74b9ff;
 
   /* 🎯 Base Colors */
