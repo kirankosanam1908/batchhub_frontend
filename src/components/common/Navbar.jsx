@@ -246,7 +246,7 @@ const Navbar = () => {
                               <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${
                                 user.isEmailVerified 
                                   ? 'status-success text-white' 
-                                  : 'status-warning text-gray-800'
+                                  : 'status-warning text-white'
                               }`}>
                                 {user.isEmailVerified ? '✓ Verified' : '⏳ Pending'}
                               </span>

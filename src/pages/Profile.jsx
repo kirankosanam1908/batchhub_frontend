@@ -91,13 +91,13 @@ const Profile = () => {
                   {user?.isEmailVerified ? (
                     <div className="status-success text-white px-3 py-1 rounded-full text-sm font-medium mt-2">Email Verified</div>
                   ) : (
-                    <div className="status-warning text-gray-800 px-3 py-1 rounded-full text-sm font-medium mt-2">Email Not Verified</div>
+                    <div className="status-warning text-white px-3 py-1 rounded-full text-sm font-medium mt-2">Email Not Verified</div>
                   )}
 
                   {/* Quick Edit Button */}
                   <button
                     onClick={() => setShowEditModal(true)}
-                    className="auth-light auth-text-primary border auth-border hover:bg-yellow-100 px-4 py-2 rounded-xl font-medium mt-3 transition-colors duration-200 inline-flex items-center gap-2"
+                    className="auth-light text-black border auth-border hover:bg-yellow-100 px-4 py-2 rounded-xl font-medium mt-3 transition-colors duration-200 inline-flex items-center gap-2"
                   >
                     <PencilIcon className="w-4 h-4" />
                     Edit Profile
@@ -530,7 +530,7 @@ const EditProfileModal = ({ user, onClose, onSuccess }) => {
                 </div>
                 <div>
                   <h4 className="font-semibold mb-2 text-gray-900">Profile Picture</h4>
-                  <label className="auth-light auth-text-primary border auth-border hover:bg-yellow-100 px-4 py-2 rounded-xl font-medium cursor-pointer transition-colors duration-200 inline-flex items-center gap-2">
+                  <label className="auth-light text-black border auth-border hover:bg-yellow-100 px-4 py-2 rounded-xl font-medium cursor-pointer transition-colors duration-200 inline-flex items-center gap-2">
                     <CameraIcon className="w-4 h-4" />
                     Change Picture
                     <input
