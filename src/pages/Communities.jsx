@@ -32,6 +32,28 @@ const Communities = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
 
+  // Predefined communities
+  const predefinedCommunities = [
+    {
+      _id: 'predefined-academic',
+      name: 'CS Study Hub 2025',
+      description: 'Collaborative space for CS students to share study materials, discuss topics, and support each other through coursework.',
+      type: 'academic',
+      code: 'H3O4MS',
+      members: [],
+      isPredefined: true
+    },
+    {
+      _id: 'predefined-chillout',
+      name: 'Campus Chill Zone',
+      description: 'Relaxation hub for fun activities, casual conversations, and building friendships outside the classroom.',
+      type: 'chillout',
+      code: 'U6QR6S',
+      members: [],
+      isPredefined: true
+    }
+  ];
+
   useEffect(() => {
     fetchCommunities();
   }, []);
@@ -39,9 +61,12 @@ const Communities = () => {
   const fetchCommunities = async () => {
     try {
       const { data } = await api.get('/api/communities/my-communities');
-      setCommunities(data);
+      // Combine predefined communities with user communities
+      setCommunities([...predefinedCommunities, ...data]);
     } catch (error) {
-      toast.error('Failed to fetch communities');
+      // If API fails, still show predefined communities
+      setCommunities(predefinedCommunities);
+      toast.error('Failed to fetch user communities');
     } finally {
       setLoading(false);
     }
@@ -124,93 +149,54 @@ const Communities = () => {
           </div>
         </div>
 
-        {communities.length === 0 ? (
-          <div className="flex justify-center">
-            <div className="max-w-2xl w-full bg-white rounded-3xl p-12 text-center communities-border-light shadow-xl border">
-              <div className="relative mb-8">
-                <div className="w-24 h-24 communities-gradient rounded-full flex items-center justify-center mx-auto shadow-lg animate-pulse">
-                  <UserGroupSolid className="w-12 h-12 text-white" />
+        {/* Always show communities since we have predefined ones */}
+        <div className="space-y-12">
+          {/* Academic Communities Section */}
+          {academicCommunities.length > 0 && (
+            <div>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-3 academic-light rounded-2xl shadow-lg">
+                  <AcademicCapSolid className="w-8 h-8 academic-text-primary" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 auth-gradient rounded-full flex items-center justify-center animate-bounce">
-                  <StarSolid className="w-4 h-4 text-white" />
+                <h2 className="text-3xl font-bold academic-text-primary">
+                  Academic Constellations
+                </h2>
+                <div className="px-4 py-2 academic-light rounded-full">
+                  <span className="font-bold academic-text-primary">{academicCommunities.length}</span>
                 </div>
+                <span className="text-2xl">📚</span>
               </div>
-              <h3 className="text-3xl font-bold text-gray-800 mb-4">
-                Ready to Join the Galaxy? 🌌
-              </h3>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Create stellar connections! Join an existing community or create your own 
-                <span className="font-semibold academic-text-primary"> academic constellation</span> or 
-                <span className="font-semibold chillout-text-primary"> fun nebula</span>!
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={() => setShowJoinModal(true)}
-                  className="group communities-primary text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
-                >
-                  <UserGroupIcon className="w-5 h-5" />
-                  Join Community
-                </button>
-                <button
-                  onClick={() => setShowCreateModal(true)}
-                  className="group communities-secondary text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
-                >
-                  <PlusIcon className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
-                  Create Community
-                </button>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {academicCommunities.map((community) => (
+                  <CommunityCard key={community._id} community={community} />
+                ))}
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="space-y-12">
-            {/* Academic Communities Section */}
-            {academicCommunities.length > 0 && (
-              <div>
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="p-3 academic-light rounded-2xl shadow-lg">
-                    <AcademicCapSolid className="w-8 h-8 academic-text-primary" />
-                  </div>
-                  <h2 className="text-3xl font-bold academic-text-primary">
-                    Academic Constellations
-                  </h2>
-                  <div className="px-4 py-2 academic-light rounded-full">
-                    <span className="font-bold academic-text-primary">{academicCommunities.length}</span>
-                  </div>
-                  <span className="text-2xl">📚</span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                  {academicCommunities.map((community) => (
-                    <CommunityCard key={community._id} community={community} />
-                  ))}
-                </div>
-              </div>
-            )}
+          )}
 
-            {/* Chillout Communities Section */}
-            {chilloutCommunities.length > 0 && (
-              <div>
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="p-3 chillout-light rounded-2xl shadow-lg">
-                    <SparklesSolid className="w-8 h-8 chillout-text-primary" />
-                  </div>
-                  <h2 className="text-3xl font-bold chillout-text-primary">
-                    Chillout Nebulas
-                  </h2>
-                  <div className="px-4 py-2 chillout-light rounded-full">
-                    <span className="font-bold chillout-text-primary">{chilloutCommunities.length}</span>
-                  </div>
-                  <span className="text-2xl">🎉</span>
+          {/* Chillout Communities Section */}
+          {chilloutCommunities.length > 0 && (
+            <div>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-3 chillout-light rounded-2xl shadow-lg">
+                  <SparklesSolid className="w-8 h-8 chillout-text-primary" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                  {chilloutCommunities.map((community) => (
-                    <CommunityCard key={community._id} community={community} />
-                  ))}
+                <h2 className="text-3xl font-bold chillout-text-primary">
+                  Chillout Nebulas
+                </h2>
+                <div className="px-4 py-2 chillout-light rounded-full">
+                  <span className="font-bold chillout-text-primary">{chilloutCommunities.length}</span>
                 </div>
+                <span className="text-2xl">🎉</span>
               </div>
-            )}
-          </div>
-        )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {chilloutCommunities.map((community) => (
+                  <CommunityCard key={community._id} community={community} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Enhanced Modals */}
         {showCreateModal && (
@@ -237,10 +223,22 @@ const Communities = () => {
   );
 };
 
-// Enhanced Community Card Component with Special Themes
+// Enhanced Community Card Component with Special Themes and Predefined Community Handling
 const CommunityCard = ({ community }) => {
   const isAcademic = community.type === 'academic';
   const basePath = isAcademic ? '/academics' : '/chillout';
+  const isPredefined = community.isPredefined;
+
+  const handleJoinPredefined = async (code) => {
+    try {
+      await api.post('/api/communities/join', { code });
+      toast.success('🌌 Welcome to the community galaxy!');
+      // Refresh page to update communities
+      window.location.reload();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to join community');
+    }
+  };
 
   return (
     <div className="group transform hover:scale-[1.02] transition-all duration-500">
@@ -259,9 +257,17 @@ const CommunityCard = ({ community }) => {
                   )}
                 </div>
                 <div className="flex-1">
-                  <h2 className={`text-xl font-bold mb-1 ${isAcademic ? 'academic-text-primary' : 'chillout-text-primary'}`}>
-                    {community.name}
-                  </h2>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h2 className={`text-xl font-bold ${isAcademic ? 'academic-text-primary' : 'chillout-text-primary'}`}>
+                      {community.name}
+                    </h2>
+                    {isPredefined && (
+                      <div className="px-2 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold rounded-full flex items-center gap-1">
+                        <StarSolid className="w-3 h-3" />
+                        FEATURED
+                      </div>
+                    )}
+                  </div>
                   <div className="flex items-center gap-3">
                     <div className={`px-3 py-1 rounded-full text-xs font-medium border ${
                       isAcademic 
@@ -287,106 +293,160 @@ const CommunityCard = ({ community }) => {
         {/* Content */}
         <div className="p-6">
           <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-2">
-            {community.description || `A stellar ${community.type} community for collaborative growth and learning.`}
+            {community.description}
           </p>
 
-          {/* Quick Action Links */}
-          <div className="space-y-3 mb-6">
-            <Link
-              to={`${basePath}/${community._id}/discussions`}
-              className={`group/item flex items-center justify-between p-3 rounded-2xl transition-all duration-300 transform hover:-translate-y-0.5 ${
+          {/* Predefined Community Actions */}
+          {isPredefined ? (
+            <div className="space-y-4 mb-6">
+              <div className={`p-4 rounded-2xl border-2 border-dashed ${
                 isAcademic 
-                  ? 'academic-light hover:bg-blue-100 academic-border-light border' 
-                  : 'chillout-light hover:bg-orange-100 chillout-border-light border'
-              } hover:shadow-lg`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${
-                  isAcademic 
-                    ? 'academic-secondary' 
-                    : 'chillout-secondary'
-                }`}>
-                  <ChatBubbleLeftRightIcon className="w-4 h-4 text-white" />
+                  ? 'academic-border-light academic-light' 
+                  : 'chillout-border-light chillout-light'
+              }`}>
+                <div className="text-center">
+                  <div className="text-2xl mb-2">🌟</div>
+                  <p className="text-sm font-medium text-gray-700 mb-3">
+                    This is a featured community! Join to unlock full access.
+                  </p>
+                  <button
+                    onClick={() => handleJoinPredefined(community.code)}
+                    className={`px-6 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl text-white ${
+                      isAcademic 
+                        ? 'academic-primary hover:academic-dark' 
+                        : 'chillout-primary hover:chillout-dark'
+                    }`}
+                  >
+                    Join Galaxy 🚀
+                  </button>
                 </div>
-                <span className="text-sm font-medium text-gray-700">
-                  {isAcademic ? 'Q&A Discussions' : 'Fun Conversations'}
-                </span>
               </div>
-              <ArrowRightIcon className={`w-4 h-4 text-gray-400 group-hover/item:translate-x-1 transition-transform duration-300 ${
-                isAcademic 
-                  ? 'group-hover/item:academic-text-primary' 
-                  : 'group-hover/item:chillout-text-primary'
-              }`} />
-            </Link>
-            
-            <Link
-              to={`${basePath}/${community._id}/${isAcademic ? 'notes' : 'events'}`}
-              className={`group/item flex items-center justify-between p-3 rounded-2xl transition-all duration-300 transform hover:-translate-y-0.5 ${
-                isAcademic 
-                  ? 'dashboard-light hover:bg-green-100 dashboard-border-light border' 
-                  : 'communities-light hover:bg-purple-100 communities-border-light border'
-              } hover:shadow-lg`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${
+            </div>
+          ) : (
+            /* Regular Community Quick Action Links */
+            <div className="space-y-3 mb-6">
+              <Link
+                to={`${basePath}/${community._id}/discussions`}
+                className={`group/item flex items-center justify-between p-3 rounded-2xl transition-all duration-300 transform hover:-translate-y-0.5 ${
                   isAcademic 
-                    ? 'dashboard-secondary' 
-                    : 'communities-secondary'
-                }`}>
-                  {isAcademic ? (
-                    <DocumentTextIcon className="w-4 h-4 text-white" />
-                  ) : (
-                    <CalendarIcon className="w-4 h-4 text-white" />
-                  )}
+                    ? 'academic-light hover:bg-blue-100 academic-border-light border' 
+                    : 'chillout-light hover:bg-orange-100 chillout-border-light border'
+                } hover:shadow-lg`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${
+                    isAcademic 
+                      ? 'academic-secondary' 
+                      : 'chillout-secondary'
+                  }`}>
+                    <ChatBubbleLeftRightIcon className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {isAcademic ? 'Q&A Discussions' : 'Fun Conversations'}
+                  </span>
                 </div>
-                <span className="text-sm font-medium text-gray-700">
-                  {isAcademic ? 'Study Materials' : 'Events & Plans'}
-                </span>
-              </div>
-              <ArrowRightIcon className={`w-4 h-4 text-gray-400 group-hover/item:translate-x-1 transition-transform duration-300 ${
-                isAcademic 
-                  ? 'group-hover/item:dashboard-text-primary' 
-                  : 'group-hover/item:communities-text-primary'
-              }`} />
-            </Link>
-          </div>
+                <ArrowRightIcon className={`w-4 h-4 text-gray-400 group-hover/item:translate-x-1 transition-transform duration-300 ${
+                  isAcademic 
+                    ? 'group-hover/item:academic-text-primary' 
+                    : 'group-hover/item:chillout-text-primary'
+                }`} />
+              </Link>
+              
+              <Link
+                to={`${basePath}/${community._id}/${isAcademic ? 'notes' : 'events'}`}
+                className={`group/item flex items-center justify-between p-3 rounded-2xl transition-all duration-300 transform hover:-translate-y-0.5 ${
+                  isAcademic 
+                    ? 'dashboard-light hover:bg-green-100 dashboard-border-light border' 
+                    : 'communities-light hover:bg-purple-100 communities-border-light border'
+                } hover:shadow-lg`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${
+                    isAcademic 
+                      ? 'dashboard-secondary' 
+                      : 'communities-secondary'
+                  }`}>
+                    {isAcademic ? (
+                      <DocumentTextIcon className="w-4 h-4 text-white" />
+                    ) : (
+                      <CalendarIcon className="w-4 h-4 text-white" />
+                    )}
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {isAcademic ? 'Study Materials' : 'Events & Plans'}
+                  </span>
+                </div>
+                <ArrowRightIcon className={`w-4 h-4 text-gray-400 group-hover/item:translate-x-1 transition-transform duration-300 ${
+                  isAcademic 
+                    ? 'group-hover/item:dashboard-text-primary' 
+                    : 'group-hover/item:communities-text-primary'
+                }`} />
+              </Link>
+            </div>
+          )}
 
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-            <Link
-              to={basePath}
-              className={`group px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl inline-flex items-center gap-2 ${
-                isAcademic 
-                  ? 'academic-primary' 
-                  : 'chillout-primary'
-              } text-white`}
-            >
-              <span>Enter {isAcademic ? 'Zone' : 'Hub'}</span>
-              <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
-            
-            <div className="text-right">
-              <div className="text-xs text-gray-500 mb-1">Community Code</div>
-              <div className="flex items-center gap-2">
-                <code className={`font-mono font-bold px-2 py-1 rounded text-xs ${
-                  isAcademic 
-                    ? 'academic-light academic-text-dark' 
-                    : 'chillout-light chillout-text-dark'
-                }`}>
-                  {community.code}
-                </code>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigator.clipboard.writeText(community.code);
-                    toast.success('Code copied! 🌌');
-                  }}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200 hover:scale-110"
-                >
-                  📋
-                </button>
+            {isPredefined ? (
+              <div className="flex-1 text-center">
+                <div className="text-xs text-gray-500 mb-1">Community Code</div>
+                <div className="flex items-center justify-center gap-2">
+                  <code className={`font-mono font-bold px-3 py-2 rounded text-sm ${
+                    isAcademic 
+                      ? 'academic-light academic-text-dark' 
+                      : 'chillout-light chillout-text-dark'
+                  }`}>
+                    {community.code}
+                  </code>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigator.clipboard.writeText(community.code);
+                      toast.success('Code copied! 🌌');
+                    }}
+                    className="text-gray-400 hover:text-gray-600 transition-colors duration-200 hover:scale-110"
+                  >
+                    📋
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <>
+                <Link
+                  to={basePath}
+                  className={`group px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl inline-flex items-center gap-2 ${
+                    isAcademic 
+                      ? 'academic-primary' 
+                      : 'chillout-primary'
+                  } text-white`}
+                >
+                  <span>Enter {isAcademic ? 'Zone' : 'Hub'}</span>
+                  <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+                <div className="text-right">
+                  <div className="text-xs text-gray-500 mb-1">Community Code</div>
+                  <div className="flex items-center gap-2">
+                    <code className={`font-mono font-bold px-2 py-1 rounded text-xs ${
+                      isAcademic 
+                        ? 'academic-light academic-text-dark' 
+                        : 'chillout-light chillout-text-dark'
+                    }`}>
+                      {community.code}
+                    </code>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigator.clipboard.writeText(community.code);
+                        toast.success('Code copied! 🌌');
+                      }}
+                      className="text-gray-400 hover:text-gray-600 transition-colors duration-200 hover:scale-110"
+                    >
+                      📋
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -710,4 +770,4 @@ const JoinCommunityModal = ({ onClose, onSuccess }) => {
   );
 };
 
-export default Communities;
+export default Communities;                
