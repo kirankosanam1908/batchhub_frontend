@@ -61,10 +61,19 @@ const Communities = () => {
   const fetchCommunities = async () => {
     try {
       const { data } = await api.get('/api/communities/my-communities');
-      // Combine predefined communities with user communities
-      setCommunities([...predefinedCommunities, ...data]);
+      
+      // Get codes of communities user has already joined
+      const joinedCodes = data.map(comm => comm.code);
+      
+      // Filter out predefined communities that user has already joined
+      const availablePredefined = predefinedCommunities.filter(
+        predefined => !joinedCodes.includes(predefined.code)
+      );
+      
+      // Combine available predefined communities with user communities
+      setCommunities([...availablePredefined, ...data]);
     } catch (error) {
-      // If API fails, still show predefined communities
+      // If API fails, show all predefined communities (assuming user hasn't joined any)
       setCommunities(predefinedCommunities);
       toast.error('Failed to fetch user communities');
     } finally {
@@ -149,54 +158,92 @@ const Communities = () => {
           </div>
         </div>
 
-        {/* Always show communities since we have predefined ones */}
-        <div className="space-y-12">
-          {/* Academic Communities Section */}
-          {academicCommunities.length > 0 && (
-            <div>
-              <div className="flex items-center gap-4 mb-8">
-                <div className="p-3 academic-light rounded-2xl shadow-lg">
-                  <AcademicCapSolid className="w-8 h-8 academic-text-primary" />
+        {communities.length === 0 ? (
+          <div className="flex justify-center">
+            <div className="max-w-2xl w-full bg-white rounded-3xl p-12 text-center communities-border-light shadow-xl border">
+              <div className="relative mb-8">
+                <div className="w-24 h-24 communities-gradient rounded-full flex items-center justify-center mx-auto shadow-lg animate-pulse">
+                  <UserGroupSolid className="w-12 h-12 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold academic-text-primary">
-                  Academic Constellations
-                </h2>
-                <div className="px-4 py-2 academic-light rounded-full">
-                  <span className="font-bold academic-text-primary">{academicCommunities.length}</span>
+                <div className="absolute -top-2 -right-2 w-8 h-8 auth-gradient rounded-full flex items-center justify-center animate-bounce">
+                  <StarSolid className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-2xl">📚</span>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {academicCommunities.map((community) => (
-                  <CommunityCard key={community._id} community={community} />
-                ))}
+              <h3 className="text-3xl font-bold text-gray-800 mb-4">
+                All Set! You've Joined Everything! 🌌
+              </h3>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Looks like you're already part of all available communities! 
+                Create a new one or ask friends to share their community codes.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => setShowJoinModal(true)}
+                  className="group communities-primary text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
+                >
+                  <UserGroupIcon className="w-5 h-5" />
+                  Join Another Community
+                </button>
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className="group communities-secondary text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
+                >
+                  <PlusIcon className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+                  Create Community
+                </button>
               </div>
             </div>
-          )}
+          </div>
+        ) : (
+          <div className="space-y-12">
+            {/* Academic Communities Section */}
+            {academicCommunities.length > 0 && (
+              <div>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="p-3 academic-light rounded-2xl shadow-lg">
+                    <AcademicCapSolid className="w-8 h-8 academic-text-primary" />
+                  </div>
+                  <h2 className="text-3xl font-bold academic-text-primary">
+                    Academic Constellations
+                  </h2>
+                  <div className="px-4 py-2 academic-light rounded-full">
+                    <span className="font-bold academic-text-primary">{academicCommunities.length}</span>
+                  </div>
+                  <span className="text-2xl">📚</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                  {academicCommunities.map((community) => (
+                    <CommunityCard key={community._id} community={community} onJoinSuccess={fetchCommunities} />
+                  ))}
+                </div>
+              </div>
+            )}
 
-          {/* Chillout Communities Section */}
-          {chilloutCommunities.length > 0 && (
-            <div>
-              <div className="flex items-center gap-4 mb-8">
-                <div className="p-3 chillout-light rounded-2xl shadow-lg">
-                  <SparklesSolid className="w-8 h-8 chillout-text-primary" />
+            {/* Chillout Communities Section */}
+            {chilloutCommunities.length > 0 && (
+              <div>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="p-3 chillout-light rounded-2xl shadow-lg">
+                    <SparklesSolid className="w-8 h-8 chillout-text-primary" />
+                  </div>
+                  <h2 className="text-3xl font-bold chillout-text-primary">
+                    Chillout Nebulas
+                  </h2>
+                  <div className="px-4 py-2 chillout-light rounded-full">
+                    <span className="font-bold chillout-text-primary">{chilloutCommunities.length}</span>
+                  </div>
+                  <span className="text-2xl">🎉</span>
                 </div>
-                <h2 className="text-3xl font-bold chillout-text-primary">
-                  Chillout Nebulas
-                </h2>
-                <div className="px-4 py-2 chillout-light rounded-full">
-                  <span className="font-bold chillout-text-primary">{chilloutCommunities.length}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                  {chilloutCommunities.map((community) => (
+                    <CommunityCard key={community._id} community={community} onJoinSuccess={fetchCommunities} />
+                  ))}
                 </div>
-                <span className="text-2xl">🎉</span>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {chilloutCommunities.map((community) => (
-                  <CommunityCard key={community._id} community={community} />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
         {/* Enhanced Modals */}
         {showCreateModal && (
@@ -224,19 +271,23 @@ const Communities = () => {
 };
 
 // Enhanced Community Card Component with Special Themes and Predefined Community Handling
-const CommunityCard = ({ community }) => {
+const CommunityCard = ({ community, onJoinSuccess }) => {
   const isAcademic = community.type === 'academic';
   const basePath = isAcademic ? '/academics' : '/chillout';
   const isPredefined = community.isPredefined;
+  const [joining, setJoining] = useState(false);
 
   const handleJoinPredefined = async (code) => {
+    setJoining(true);
     try {
       await api.post('/api/communities/join', { code });
       toast.success('🌌 Welcome to the community galaxy!');
-      // Refresh page to update communities
-      window.location.reload();
+      // Call the parent function to refresh communities
+      onJoinSuccess();
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to join community');
+    } finally {
+      setJoining(false);
     }
   };
 
@@ -311,13 +362,21 @@ const CommunityCard = ({ community }) => {
                   </p>
                   <button
                     onClick={() => handleJoinPredefined(community.code)}
+                    disabled={joining}
                     className={`px-6 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl text-white ${
                       isAcademic 
                         ? 'academic-primary hover:academic-dark' 
                         : 'chillout-primary hover:chillout-dark'
-                    }`}
+                    } ${joining ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    Join Galaxy 🚀
+                    {joining ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        Joining...
+                      </div>
+                    ) : (
+                      'Join Galaxy 🚀'
+                    )}
                   </button>
                 </div>
               </div>
@@ -423,6 +482,7 @@ const CommunityCard = ({ community }) => {
                   <span>Enter {isAcademic ? 'Zone' : 'Hub'}</span>
                   <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
+                
                 <div className="text-right">
                   <div className="text-xs text-gray-500 mb-1">Community Code</div>
                   <div className="flex items-center gap-2">
@@ -487,7 +547,7 @@ const CreateCommunityModal = ({ onClose, onSuccess }) => {
         <div className="p-8 pb-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-3 communities-light rounded-2xl shadow-lg">
+              <div className="p-3 communities-light rounded-2xl shadow">
                 <PlusIcon className="w-6 h-6 communities-text-primary" />
               </div>
               <h3 className="text-2xl font-bold communities-text-primary">
